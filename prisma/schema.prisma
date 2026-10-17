@@ -1,0 +1,213 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Compte administrateur (accès au dashboard)
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+/// Gabarits de véhicule — définissent les colonnes de la grille tarifaire
+model VehicleClass {
+  id       String         @id @default(cuid())
+  name     String         @unique
+  slug     String         @unique
+  position Int            @default(0)
+  prices   ServicePrice[]
+
+  @@index([position])
+}
+
+/// Famille de prestations (ex. « Traitement céramique »)
+model ServiceGroup {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  slug     String    @unique
+  position Int       @default(0)
+  services Service[]
+}
+
+/// Prestation proposée à l'atelier
+model Service {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  /// Phrase d'accroche (le « PHRASE : » du document prestations)
+  tagline     String?
+  /// Texte libre additionnel affiché sur la fiche
+  description String?
+  /// Nom de l'icône rendue sur le site (voir src/components/ServiceIcon.tsx)
+  icon        String  @default("sparkle")
+  /// Badge affiché sur la carte (ex. « Le plus réservé »)
+  badge       String?
+  published   Boolean @default(true)
+  featured    Boolean @default(false)
+  /// Prestation uniquement sur devis : aucun prix n'est affiché
+  quoteOnly   Boolean @default(false)
+  position    Int     @default(0)
+
+  groupId String?
+  group   ServiceGroup? @relation(fields: [groupId], references: [id], onDelete: SetNull)
+
+  inclusions ServiceInclusion[]
+  prices     ServicePrice[]
+  options    ServiceOption[]
+  messages   ContactMessage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position])
+}
+
+/// Une ligne « INCLUS » d'une prestation
+model ServiceInclusion {
+  id        String  @id @default(cuid())
+  label     String
+  position  Int     @default(0)
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([serviceId, position])
+}
+
+/// Prix d'une prestation pour un gabarit donné (en centimes)
+model ServicePrice {
+  id             String       @id @default(cuid())
+  /// Prix en centimes. null = sur devis
+  priceCents     Int?
+  /// Prix promotionnel en centimes, prioritaire à l'affichage
+  promoCents     Int?
+  serviceId      String
+  service        Service      @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  vehicleClassId String
+  vehicleClass   VehicleClass @relation(fields: [vehicleClassId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceId, vehicleClassId])
+}
+
+/// Option / supplément facturable en plus d'une prestation
+model ServiceOption {
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  optionId  String
+  option    Option  @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  @@id([serviceId, optionId])
+}
+
+model Option {
+  id          String          @id @default(cuid())
+  name        String
+  slug        String          @unique
+  description String?
+  /// Prix en centimes
+  priceCents  Int
+  published   Boolean         @default(true)
+  position    Int             @default(0)
+  services    ServiceOption[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position])
+}
+
+/// Rayon de la boutique
+model ProductCategory {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  slug     String    @unique
+  position Int       @default(0)
+  products Product[]
+
+  @@index([position])
+}
+
+/// Produit de la boutique — vitrine uniquement, aucune vente en ligne
+model Product {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String?
+  /// Prix indicatif en centimes
+  priceCents  Int
+  /// Contenance / format (ex. « 500 ml »)
+  format      String?
+  /// Chemin de l'image dans /public (ex. /produits/shampoing.jpg) ou URL absolue
+  imageUrl    String?
+  brand       String?
+  published   Boolean @default(true)
+  featured    Boolean @default(false)
+  position    Int     @default(0)
+
+  categoryId String?
+  category   ProductCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position])
+}
+
+/// Demande envoyée depuis le formulaire de contact
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  vehicle   String?
+  message   String
+  /// Prestation évoquée dans la demande, si renseignée
+  serviceId String?
+  service   Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  handled   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+/// Réglages du site éditables depuis le dashboard (ligne unique, id = "singleton")
+model SiteSettings {
+  id          String  @id @default("singleton")
+  phone       String  @default("0493 / 41 91 26")
+  email       String  @default("dorian.detailing@gmail.com")
+  addressLine String  @default("Grand'Route 550 D2")
+  city        String  @default("1420 Braine-l'Alleud")
+  /// Horaires, une ligne par jour
+  hours       String  @default("Lun - Ven : 9h - 18h\nSam : 9h - 13h\nDim : fermé")
+  instagram   String?
+  facebook    String?
+  tiktok      String?
+  heroTitle   String  @default("Votre carrosserie mérite mieux qu'un simple lavage.")
+  heroText    String  @default("Nettoyage, polissage et protection céramique réalisés à la main, dans notre atelier de Braine-l'Alleud. Un rendu sortie-de-concession, à chaque passage.")
+  statVehicles String @default("500+")
+  statRating   String @default("4.9 / 5")
+  boutiqueNote String @default("Ces produits ne sont pas en vente en ligne : contactez-nous par téléphone ou email, ou passez directement à l'atelier.")
+
+  updatedAt DateTime @updatedAt
+}
+
+/// Avis client affiché sur la page d'accueil
+model Testimonial {
+  id        String   @id @default(cuid())
+  author    String
+  location  String?
+  content   String
+  rating    Int      @default(5)
+  published Boolean  @default(true)
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([position])
+}

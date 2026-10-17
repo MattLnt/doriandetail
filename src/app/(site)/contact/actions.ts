@@ -1,0 +1,109 @@
+"use server";
+
+import { z } from "zod";
+
+import { sendContactNotification } from "@/lib/mail";
+import { prisma } from "@/lib/prisma";
+import { getSettings } from "@/lib/queries";
+
+const schema = z.object({
+  name: z.string().trim().min(2, "Indiquez votre nom.").max(120),
+  email: z.string().trim().email("Adresse email invalide."),
+  phone: z.string().trim().max(40).optional(),
+  vehicle: z.string().trim().max(120).optional(),
+  serviceSlug: z.string().trim().max(120).optional(),
+  message: z.string().trim().min(10, "Détaillez un peu votre demande.").max(4000),
+  // Champ leurre : rempli uniquement par les robots.
+  company: z.string().max(0).optional(),
+});
+
+export type ContactState = {
+  status: "idle" | "success" | "error";
+  message?: string;
+  fieldErrors?: Partial<Record<"name" | "email" | "phone" | "vehicle" | "message", string>>;
+};
+
+export async function submitContact(
+  _prev: ContactState,
+  formData: FormData,
+): Promise<ContactState> {
+  const parsed = schema.safeParse({
+    name: formData.get("name") ?? "",
+    email: formData.get("email") ?? "",
+    phone: formData.get("phone") ?? undefined,
+    vehicle: formData.get("vehicle") ?? undefined,
+    serviceSlug: formData.get("serviceSlug") ?? undefined,
+    message: formData.get("message") ?? "",
+    company: formData.get("company") ?? undefined,
+  });
+
+  if (!parsed.success) {
+    const fieldErrors: ContactState["fieldErrors"] = {};
+    for (const issue of parsed.error.issues) {
+      const key = issue.path[0];
+      if (
+        key === "name" ||
+        key === "email" ||
+        key === "phone" ||
+        key === "vehicle" ||
+        key === "message"
+      ) {
+        fieldErrors[key] ??= issue.message;
+      }
+    }
+    // Le leurre est rempli : on répond comme si tout allait bien, sans rien enregistrer.
+    if (parsed.error.issues.some((issue) => issue.path[0] === "company")) {
+      return { status: "success", message: "Merci, votre demande a bien été envoyée." };
+    }
+    return {
+      status: "error",
+      message: "Certains champs doivent être corrigés.",
+      fieldErrors,
+    };
+  }
+
+  const data = parsed.data;
+
+  const service = data.serviceSlug
+    ? await prisma.service.findUnique({
+        where: { slug: data.serviceSlug },
+        select: { id: true, name: true },
+      })
+    : null;
+
+  try {
+    await prisma.contactMessage.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        phone: data.phone || null,
+        vehicle: data.vehicle || null,
+        message: data.message,
+        serviceId: service?.id ?? null,
+      },
+    });
+  } catch (error) {
+    console.error("[contact] enregistrement impossible", error);
+    return {
+      status: "error",
+      message:
+        "Une erreur est survenue à l'enregistrement. Réessayez ou appelez-nous directement.",
+    };
+  }
+
+  const settings = await getSettings();
+  const notification = await sendContactNotification(
+    { ...data, serviceName: service?.name ?? null },
+    settings.email,
+  );
+  if (!notification.sent) {
+    // La demande est enregistrée et visible dans le dashboard : on n'alerte pas le visiteur.
+    console.warn("[contact] notification email non envoyée :", notification.error);
+  }
+
+  return {
+    status: "success",
+    message:
+      "Merci, votre demande est bien arrivée. Nous revenons vers vous rapidement pour fixer un créneau.",
+  };
+}

@@ -1,0 +1,237 @@
+@import "tailwindcss";
+
+/* ── Jetons de design — reprises des maquettes HTML ─────────────────────── */
+@theme {
+  --color-bg: #ffffff;
+  --color-surface: #f7f5f3;
+  --color-surface-2: #efebe7;
+  --color-line: rgba(20, 20, 19, 0.1);
+  --color-ink: #141413;
+  --color-ink-dim: #5c5751;
+  --color-ink-faint: #938d85;
+  --color-accent: #c2887a;
+  --color-accent-ink: #2a1812;
+  --color-accent-soft: rgba(194, 136, 122, 0.14);
+  --color-dark: #121110;
+
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-sans: var(--font-work-sans), system-ui, sans-serif;
+
+  --radius-card: 18px;
+  --radius-panel: 24px;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+
+  /* Anneau de focus visible et cohérent sur tout le site */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .disp {
+    font-family: var(--font-display);
+  }
+
+  .shell {
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 32px;
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14.5px;
+    letter-spacing: 0.01em;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition:
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      color 0.18s ease,
+      opacity 0.18s ease;
+  }
+
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: var(--color-ink);
+    color: #ffffff;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: #2c2a27;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-line);
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--color-surface);
+  }
+
+  .btn-accent {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+
+  .btn-accent:hover:not(:disabled) {
+    background: #b57a6c;
+  }
+
+  .btn-sm {
+    padding: 9px 16px;
+    font-size: 13px;
+  }
+
+  .btn-danger {
+    background: transparent;
+    border-color: rgba(176, 58, 46, 0.35);
+    color: #b03a2e;
+  }
+
+  .btn-danger:hover:not(:disabled) {
+    background: rgba(176, 58, 46, 0.08);
+  }
+
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+  }
+
+  .eyebrow {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  /* ── Champs de formulaire (site + dashboard) ──────────────────────────── */
+  .label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--color-ink-dim);
+    margin-bottom: 7px;
+  }
+
+  .field {
+    width: 100%;
+    border-radius: 10px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-line);
+    padding: 11px 14px;
+    font-size: 14.5px;
+    font-family: inherit;
+    color: var(--color-ink);
+  }
+
+  .field::placeholder {
+    color: var(--color-ink-faint);
+  }
+
+  .field:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
+  }
+
+  textarea.field {
+    resize: vertical;
+    min-height: 110px;
+    line-height: 1.55;
+  }
+
+  .hint {
+    font-size: 12px;
+    color: var(--color-ink-faint);
+    margin-top: 6px;
+  }
+
+  .error-text {
+    font-size: 12.5px;
+    color: #b03a2e;
+    margin-top: 6px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    color: var(--color-ink-dim);
+    background: var(--color-bg);
+  }
+
+  .badge-accent {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+
+  .badge-on {
+    background: rgba(45, 122, 78, 0.1);
+    border-color: rgba(45, 122, 78, 0.3);
+    color: #2d7a4e;
+  }
+
+  .badge-off {
+    background: var(--color-surface-2);
+    color: var(--color-ink-faint);
+  }
+}

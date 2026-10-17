@@ -1,0 +1,105 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+
+import { ArrowRightIcon } from "@/components/Icons";
+
+const NAV = [
+  { href: "/prestations", label: "Prestations" },
+  { href: "/tarifs", label: "Tarifs" },
+  { href: "/boutique", label: "Boutique" },
+  { href: "/#avis", label: "Avis" },
+  { href: "/contact", label: "Contact" },
+];
+
+export function SiteHeader() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-40 w-full border-b border-line bg-white/90 backdrop-blur-md">
+      <div className="shell flex items-center justify-between gap-6 py-4">
+        <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
+          {/* Le logo fourni inclut le mot-clé sous le monogramme : on recadre
+              sur le monogramme, le nom étant déjà écrit à côté. */}
+          <span className="flex h-[38px] w-[38px] items-center justify-center overflow-hidden rounded-[10px] border border-accent/40 bg-accent-soft">
+            <Image
+              src="/logo.png"
+              alt=""
+              width={76}
+              height={76}
+              priority
+              className="h-[46px] w-[46px] -translate-y-[3px] object-contain"
+            />
+          </span>
+          <span className="leading-none">
+            <span className="disp block text-[17px] font-bold tracking-wide">DORIAN</span>
+            <span className="block text-[10.5px] font-semibold tracking-[0.22em] text-ink-dim">
+              DETAILING
+            </span>
+          </span>
+        </Link>
+
+        <nav className="hidden items-center gap-7 text-sm font-medium text-ink-dim lg:flex">
+          {NAV.map((item) => (
+            <Link key={item.href} href={item.href} className="transition-colors hover:text-ink">
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <Link href="/contact" className="btn btn-primary hidden lg:inline-flex">
+          Nous contacter
+          <ArrowRightIcon size={15} />
+        </Link>
+
+        <button
+          type="button"
+          className="flex h-10 w-10 items-center justify-center rounded-[10px] border border-line lg:hidden"
+          aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-expanded={open}
+          onClick={() => setOpen((value) => !value)}
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            aria-hidden
+          >
+            {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+          </svg>
+        </button>
+      </div>
+
+      {open && (
+        <nav className="border-t border-line bg-white lg:hidden">
+          <div className="shell flex flex-col py-2">
+            {NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="border-b border-line py-3.5 text-[15px] font-medium text-ink-dim last:border-0"
+                onClick={() => setOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href="/contact"
+              className="btn btn-primary my-4"
+              onClick={() => setOpen(false)}
+            >
+              Nous contacter
+              <ArrowRightIcon size={15} />
+            </Link>
+          </div>
+        </nav>
+      )}
+    </header>
+  );
+}
