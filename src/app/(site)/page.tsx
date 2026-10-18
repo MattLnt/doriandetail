@@ -1,8 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import {
   ArrowRightIcon,
-  ImageIcon,
   PhoneIcon,
   StarFilledIcon,
 } from "@/components/Icons";
@@ -32,23 +32,40 @@ export default async function HomePage() {
     <>
       {/* ── Hero — photo plein ecran, texte ancre en bas ──────────────────── */}
       <section className="relative -mt-[var(--header-h)] flex min-h-[92vh] flex-col justify-end overflow-hidden bg-dark text-on-dark">
-        {/* Emplacement photo. Remplacer ce bloc par <Image fill priority /> en
-            gardant le meme conteneur : le degrade par-dessus reste valable. */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#232323] to-[#0b0b0b]">
-          <div className="absolute inset-0 flex flex-col items-center justify-start gap-2.5 pt-[24vh] text-on-dark-faint">
-            <ImageIcon size={48} />
-            <span className="text-[11.5px] tracking-wide">
-              photo large du véhicule — à intégrer
-            </span>
-          </div>
-        </div>
+        <Image
+          src="/hero-atelier.jpg"
+          alt="Dorian lavant une Ferrari FF à la mousse active devant l'atelier de Braine-l'Alleud"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[58%_center]"
+        />
 
-        {/* Voile : la photo doit rester lisible sous le texte, en bas. */}
+        {/* Deux voiles. Bas : la photo est claire, le texte blanc a besoin
+            d'un fond franc. Haut : sans lui, la nav blanche de l'en-tete
+            transparente passerait sur le ciel pale. */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to top, rgba(10,10,10,0.96) 12%, rgba(10,10,10,0.55) 48%, rgba(10,10,10,0.3) 100%)",
+              "linear-gradient(to top, rgba(10,10,10,0.94) 10%, rgba(10,10,10,0.72) 38%, rgba(10,10,10,0.38) 68%, rgba(10,10,10,0.3) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-x-0 top-0 h-[220px]"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(10,10,10,0.72), rgba(10,10,10,0))",
+          }}
+        />
+        {/* Voile lateral : le texte longe la carrosserie blanche, qui ferait
+            chuter le contraste. Il s'arrete a 72% pour ne pas eteindre la
+            partie droite de la photo. */}
+        <div
+          className="absolute inset-0 hidden md:block"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(10,10,10,0.72) 0%, rgba(10,10,10,0.45) 38%, rgba(10,10,10,0) 72%)",
           }}
         />
 
@@ -57,7 +74,7 @@ export default async function HomePage() {
           <h1 className="mb-5 mt-4 max-w-[760px] text-[clamp(32px,5vw,62px)] font-bold leading-[1.03]">
             {settings.heroTitle}
           </h1>
-          <p className="mb-8 max-w-[480px] text-[16px] leading-relaxed text-on-dark-dim">
+          <p className="mb-8 max-w-[480px] text-[16px] leading-relaxed text-on-dark">
             {settings.heroText}
           </p>
           <div className="flex flex-wrap gap-3.5">
