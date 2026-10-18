@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { ArrowRightIcon } from "@/components/Icons";
 
@@ -16,9 +17,35 @@ const NAV = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  // Seul l'accueil ouvre sur un hero sombre : ailleurs, le haut de page est
+  // clair et l'en-tete doit rester pleine, sinon elle serait illisible.
+  const overlay = pathname === "/";
+
+  useEffect(() => {
+    if (!overlay) {
+      setScrolled(false);
+      return;
+    }
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [overlay]);
+
+  // Transparente uniquement posee sur le hero, en haut, menu ferme.
+  const solid = !overlay || scrolled || open;
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-dark-line bg-dark/92 text-on-dark backdrop-blur-md">
+    <header
+      className={`fixed inset-x-0 top-0 z-40 w-full text-on-dark transition-colors duration-300 ${
+        solid
+          ? "border-b border-dark-line bg-dark/92 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent"
+      }`}
+    >
       <div className="shell flex items-center justify-between gap-6 py-4">
         <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
           {/* Le logo fourni inclut le mot-clé sous le monogramme : on recadre

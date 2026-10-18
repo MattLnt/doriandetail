@@ -37,6 +37,18 @@
 }
 
 @layer base {
+  :root {
+    /* Hauteur de l'en-tete fixe. Le <main> s'en sert comme retrait haut, et le
+       hero la soustrait pour passer SOUS l'en-tete transparente. */
+    --header-h: 72px;
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --header-h: 84px;
+    }
+  }
+
   * {
     box-sizing: border-box;
   }
@@ -161,6 +173,9 @@
     background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-card);
+    /* Explicite : une carte claire peut etre posee dans une section sombre
+       (hero), ou elle heriterait sinon d'un texte blanc sur fond clair. */
+    color: var(--color-ink);
   }
 
   /* Carte posée sur une section noire */

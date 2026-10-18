@@ -32,53 +32,53 @@ export default async function HomePage() {
   return (
     <>
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden px-0 py-16 md:py-24">
+      <section className="relative -mt-[var(--header-h)] overflow-hidden bg-dark px-0 pb-16 pt-[calc(var(--header-h)+4rem)] text-on-dark md:pb-24 md:pt-[calc(var(--header-h)+6rem)]">
         <div
           className="pointer-events-none absolute -right-40 -top-56 h-[640px] w-[640px] rounded-full"
           style={{
             background:
-              "radial-gradient(circle, rgba(204,146,134,0.22), transparent 70%)",
+              "radial-gradient(circle, rgba(204,146,134,0.30), transparent 70%)",
           }}
         />
         <div className="shell relative flex flex-wrap items-center gap-12 lg:gap-16">
           <div className="min-w-0 flex-1 basis-[480px]">
-            <p className="eyebrow">Centre de detailing — Braine-l&apos;Alleud</p>
+            <p className="eyebrow eyebrow-light">Centre de detailing — Braine-l&apos;Alleud</p>
             <h1 className="mb-5 mt-4 text-[clamp(34px,4.6vw,58px)] font-bold leading-[1.04]">
               {settings.heroTitle}
             </h1>
-            <p className="mb-8 max-w-[480px] text-[17px] leading-relaxed text-ink-dim">
+            <p className="mb-8 max-w-[480px] text-[17px] leading-relaxed text-on-dark-dim">
               {settings.heroText}
             </p>
             <div className="mb-11 flex flex-wrap gap-3.5">
-              <Link href="/contact" className="btn btn-primary px-7 py-4 text-[15px]">
+              <Link href="/contact" className="btn btn-accent px-7 py-4 text-[15px]">
                 Demander un rendez-vous
               </Link>
-              <Link href="/tarifs" className="btn btn-ghost px-7 py-4 text-[15px]">
+              <Link href="/tarifs" className="btn btn-ghost-dark px-7 py-4 text-[15px]">
                 Voir les formules
               </Link>
             </div>
 
-            <dl className="flex max-w-[480px] flex-wrap gap-9 border-t border-line pt-7">
+            <dl className="flex max-w-[480px] flex-wrap gap-9 border-t border-dark-line pt-7">
               <div>
                 <dt className="sr-only">Véhicules traités</dt>
                 <dd className="disp text-[26px] font-bold">{settings.statVehicles}</dd>
-                <p className="text-[12.5px] text-ink-faint">véhicules traités</p>
+                <p className="text-[12.5px] text-on-dark-faint">véhicules traités</p>
               </div>
               <div>
                 <dt className="sr-only">Avis clients</dt>
                 <dd className="disp text-[26px] font-bold">{settings.statRating}</dd>
-                <p className="text-[12.5px] text-ink-faint">avis clients</p>
+                <p className="text-[12.5px] text-on-dark-faint">avis clients</p>
               </div>
               <div>
                 <dt className="sr-only">Travail à la main</dt>
                 <dd className="disp text-[26px] font-bold">100%</dd>
-                <p className="text-[12.5px] text-ink-faint">travail à la main</p>
+                <p className="text-[12.5px] text-on-dark-faint">travail à la main</p>
               </div>
             </dl>
           </div>
 
           <div className="relative min-w-[300px] flex-1 basis-[420px]">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] bg-gradient-to-br from-dark-2 to-dark">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] border border-dark-line bg-dark-2">
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5 text-on-dark-faint">
                 <ImageIcon size={54} />
                 <span className="text-xs tracking-wide">
@@ -86,7 +86,7 @@ export default async function HomePage() {
                 </span>
               </div>
             </div>
-            <div className="card absolute bottom-6 left-0 flex items-center gap-3 p-4 shadow-[0_20px_40px_rgba(0,0,0,0.12)] lg:-left-6">
+            <div className="card absolute bottom-6 left-0 flex items-center gap-3 p-4 shadow-[0_20px_40px_rgba(0,0,0,0.35)] lg:-left-6">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-soft text-accent-deep">
                 <SparkleIcon size={20} strokeWidth={2} />
               </span>
