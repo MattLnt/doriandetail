@@ -189,6 +189,9 @@ model SiteSettings {
   instagram   String?
   facebook    String?
   tiktok      String?
+  /// Fiche Google Business. Le lien par CID est stable : il ne casse pas si
+  /// le nom ou l'adresse de la fiche change.
+  googleUrl   String? @default("https://maps.google.com/?cid=7597320346183255348")
   heroTitle   String  @default("Votre carrosserie mérite mieux qu'un simple lavage.")
   heroText    String  @default("Nettoyage, polissage et protection céramique réalisés à la main, dans notre atelier de Braine-l'Alleud. Un rendu sortie-de-concession, à chaque passage.")
   statVehicles String @default("500+")

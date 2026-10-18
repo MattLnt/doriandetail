@@ -29,8 +29,8 @@
   --color-on-dark-dim: #a8a4a2;
   --color-on-dark-faint: #8c8886;
 
-  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
-  --font-sans: var(--font-work-sans), system-ui, sans-serif;
+  --font-display: var(--font-display-raw), system-ui, sans-serif;
+  --font-sans: var(--font-sans-raw), system-ui, sans-serif;
 
   --radius-card: 18px;
   --radius-panel: 24px;

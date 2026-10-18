@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Work_Sans } from "next/font/google";
+import { Nunito, Outfit } from "next/font/google";
 
 import "./globals.css";
 
-const display = Space_Grotesk({
+// Variables volontairement generiques : changer de famille ne touche que ce
+// fichier, globals.css n'a pas a connaitre leur nom.
+const display = Outfit({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
-  variable: "--font-space-grotesk",
+  variable: "--font-display-raw",
   display: "swap",
 });
 
-const sans = Work_Sans({
+const sans = Nunito({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-work-sans",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans-raw",
   display: "swap",
 });
 
