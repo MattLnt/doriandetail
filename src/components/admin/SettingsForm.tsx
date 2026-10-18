@@ -21,6 +21,10 @@ export type SettingsValues = {
   instagram: string | null;
   facebook: string | null;
   tiktok: string | null;
+  googleUrl: string | null;
+  googleReviewsUrl: string | null;
+  googleRating: string;
+  googleReviewCount: number;
   heroTitle: string;
   heroText: string;
   statVehicles: string;
@@ -93,6 +97,42 @@ export function SettingsForm({ values }: { values: SettingsValues }) {
             label="TikTok"
             defaultValue={values.tiktok}
             placeholder="https://tiktok.com/@…"
+          />
+        </div>
+      </Panel>
+
+      <Panel
+        title="Avis Google"
+        description="La note et le nombre d'avis ne se mettent pas à jour tout seuls : pensez à les revérifier sur la fiche de temps en temps."
+      >
+        <div className="flex flex-col gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <TextField
+              name="googleRating"
+              label="Note affichée"
+              defaultValue={values.googleRating}
+              placeholder="5,0"
+            />
+            <TextField
+              name="googleReviewCount"
+              label="Nombre d'avis"
+              type="number"
+              defaultValue={String(values.googleReviewCount)}
+              placeholder="140"
+            />
+          </div>
+          <TextField
+            name="googleUrl"
+            label="Lien vers la fiche Google"
+            defaultValue={values.googleUrl}
+            placeholder="https://maps.google.com/?cid=…"
+          />
+          <TextField
+            name="googleReviewsUrl"
+            label="Lien direct vers les avis"
+            defaultValue={values.googleReviewsUrl}
+            placeholder="https://search.google.com/local/reviews?placeid=…"
+            hint="Laissez vide pour masquer le bloc d'avis Google sur l'accueil."
           />
         </div>
       </Panel>

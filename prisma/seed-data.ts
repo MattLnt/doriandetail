@@ -617,23 +617,13 @@ export const PRODUCTS = [
   },
 ] as const;
 
-export const TESTIMONIALS = [
-  {
-    author: "Client Google",
-    location: "Braine-l'Alleud",
-    content:
-      "Voiture rendue comme à la sortie du concessionnaire. Un travail soigné du début à la fin, je recommande sans hésiter.",
-  },
-  {
-    author: "Client Google",
-    location: "Brabant wallon",
-    content:
-      "Première expérience de polish et céramique pour moi : ma voiture de plusieurs années a retrouvé un aspect neuf. Très convaincue.",
-  },
-  {
-    author: "Client Google",
-    location: "Nivelles",
-    content:
-      "Jamais déçue en récupérant ma voiture, elle ressort comme neuve à chaque passage. Je recommande les yeux fermés.",
-  },
-] as const;
+/**
+ * Vide volontairement : les trois temoignages d'origine etaient inventes et
+ * signes "Client Google", ce qui laissait croire a de vrais avis Google.
+ * Les avis reels se saisissent dans le back-office, onglet Avis.
+ */
+export const TESTIMONIALS: {
+  author: string;
+  location?: string;
+  content: string;
+}[] = [];

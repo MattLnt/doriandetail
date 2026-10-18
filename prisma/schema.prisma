@@ -192,6 +192,12 @@ model SiteSettings {
   /// Fiche Google Business. Le lien par CID est stable : il ne casse pas si
   /// le nom ou l'adresse de la fiche change.
   googleUrl   String? @default("https://maps.google.com/?cid=7597320346183255348")
+  /// Page des avis, via le Place ID ChIJV7m92q3Nw0cRNMUZP5oab2k.
+  googleReviewsUrl String? @default("https://search.google.com/local/reviews?placeid=ChIJV7m92q3Nw0cRNMUZP5oab2k")
+  /// Note et nombre d'avis, saisis a la main : sans l'API Google, ils ne se
+  /// mettent pas a jour tout seuls. A reverifier de temps en temps.
+  googleRating      String @default("5,0")
+  googleReviewCount Int    @default(140)
   heroTitle   String  @default("Votre carrosserie mérite mieux qu'un simple lavage.")
   heroText    String  @default("Nettoyage, polissage et protection céramique réalisés à la main, dans notre atelier de Braine-l'Alleud. Un rendu sortie-de-concession, à chaque passage.")
   statVehicles String @default("500+")

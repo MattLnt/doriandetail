@@ -202,17 +202,47 @@ export default async function HomePage() {
       </section>
 
       {/* ── Avis ───────────────────────────────────────────────────────────── */}
-      {testimonials.length > 0 && (
-        <section id="avis" className="border-b border-line py-16 md:py-20">
-          <div className="shell">
-            <div className="mx-auto mb-11 max-w-[520px] text-center">
-              <p className="eyebrow">Ils nous ont recommandés</p>
-              <h2 className="mt-3 text-[clamp(26px,3vw,34px)] font-bold">
-                La satisfaction client avant tout
-              </h2>
-            </div>
+      <section id="avis" className="border-b border-line py-16 md:py-20">
+        <div className="shell">
+          <div className="mx-auto mb-11 max-w-[520px] text-center">
+            <p className="eyebrow">Ils nous ont recommandés</p>
+            <h2 className="mt-3 text-[clamp(26px,3vw,34px)] font-bold">
+              La satisfaction client avant tout
+            </h2>
+          </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
+          {/* Note Google. Les chiffres viennent des reglages : ils ne sont pas
+              tires de l'API, donc ils doivent rester verifiables d'un clic. */}
+          {settings.googleReviewsUrl && (
+            <div className="card mx-auto flex max-w-[560px] flex-col items-center gap-4 p-8 text-center">
+              <p className="disp text-[52px] font-bold leading-none">
+                {settings.googleRating}
+              </p>
+              <div
+                className="flex gap-1 text-accent-deep"
+                aria-label={`Note de ${settings.googleRating} sur 5`}
+              >
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <StarFilledIcon key={index} size={20} />
+                ))}
+              </div>
+              <p className="text-[14.5px] text-ink-dim">
+                sur {settings.googleReviewCount} avis Google
+              </p>
+              <a
+                href={settings.googleReviewsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary mt-1"
+              >
+                Lire les avis sur Google
+                <ArrowRightIcon size={15} />
+              </a>
+            </div>
+          )}
+
+          {testimonials.length > 0 && (
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
               {testimonials.map((testimonial) => (
                 <figure key={testimonial.id} className="card p-7">
                   <div
@@ -233,9 +263,9 @@ export default async function HomePage() {
                 </figure>
               ))}
             </div>
-          </div>
-        </section>
-      )}
+          )}
+        </div>
+      </section>
 
       {/* ── Bannière contact ───────────────────────────────────────────────── */}
       <section className="flex w-full justify-center bg-dark px-5 py-16 md:px-8 md:py-20">

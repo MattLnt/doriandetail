@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import {
   ClockIcon,
   FacebookIcon,
+  GoogleIcon,
   InstagramIcon,
   MailIcon,
   PhoneIcon,
@@ -36,6 +37,7 @@ export default async function ContactPage({ searchParams }: PageProps) {
 
   const telHref = `tel:${settings.phone.replace(/[^0-9+]/g, "")}`;
   const socials = [
+    { href: settings.googleUrl, Icon: GoogleIcon, label: "Fiche Google" },
     { href: settings.instagram, Icon: InstagramIcon, label: "Instagram" },
     { href: settings.facebook, Icon: FacebookIcon, label: "Facebook" },
     { href: settings.tiktok, Icon: TiktokIcon, label: "TikTok" },

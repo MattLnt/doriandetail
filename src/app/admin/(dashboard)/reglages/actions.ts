@@ -26,6 +26,14 @@ const schema = z.object({
   instagram: optionalUrl,
   facebook: optionalUrl,
   tiktok: optionalUrl,
+  googleUrl: optionalUrl,
+  googleReviewsUrl: optionalUrl,
+  googleRating: z.string().trim().max(10),
+  googleReviewCount: z.coerce
+    .number()
+    .int()
+    .min(0, "Le nombre d'avis ne peut pas être négatif.")
+    .max(100000),
   heroTitle: z.string().trim().min(5, "Le titre est trop court.").max(200),
   heroText: z.string().trim().min(10).max(800),
   statVehicles: z.string().trim().max(20),
@@ -48,6 +56,10 @@ export async function updateSettings(
     instagram: formData.get("instagram") ?? undefined,
     facebook: formData.get("facebook") ?? undefined,
     tiktok: formData.get("tiktok") ?? undefined,
+    googleUrl: formData.get("googleUrl") ?? undefined,
+    googleReviewsUrl: formData.get("googleReviewsUrl") ?? undefined,
+    googleRating: formData.get("googleRating") ?? "",
+    googleReviewCount: formData.get("googleReviewCount") ?? 0,
     heroTitle: formData.get("heroTitle") ?? "",
     heroText: formData.get("heroText") ?? "",
     statVehicles: formData.get("statVehicles") ?? "",
@@ -64,6 +76,8 @@ export async function updateSettings(
     instagram: parsed.data.instagram || null,
     facebook: parsed.data.facebook || null,
     tiktok: parsed.data.tiktok || null,
+    googleUrl: parsed.data.googleUrl || null,
+    googleReviewsUrl: parsed.data.googleReviewsUrl || null,
   };
 
   try {

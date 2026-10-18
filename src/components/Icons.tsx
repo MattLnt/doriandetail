@@ -168,6 +168,14 @@ export const InstagramIcon = (p: IconProps) => (
   </svg>
 );
 
+/** Repere de carte : la fiche Google Business est avant tout un lieu. */
+export const GoogleIcon = (p: IconProps) => (
+  <svg {...base({ ...p, strokeWidth: p.strokeWidth ?? 2 })}>
+    <path d="M20 10c0 5.5-8 12-8 12S4 15.5 4 10a8 8 0 1 1 16 0z" />
+    <circle cx="12" cy="10" r="3" />
+  </svg>
+);
+
 export const TiktokIcon = (p: IconProps) => (
   <svg {...base({ ...p, strokeWidth: p.strokeWidth ?? 2 })}>
     <path d="M16 3a5 5 0 0 0 5 5v3a8 8 0 0 1-5-1.7V15a6 6 0 1 1-6-6c.3 0 .7 0 1 .1V12a2.9 2.9 0 1 0 2 2.8V3z" />
