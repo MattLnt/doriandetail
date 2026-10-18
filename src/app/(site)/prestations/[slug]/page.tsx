@@ -51,7 +51,7 @@ export default async function ServicePage({ params }: PageProps) {
 
           <div className="flex flex-wrap items-start gap-10 lg:gap-16">
             <div className="min-w-0 flex-1 basis-[520px]">
-              <span className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-accent-soft text-accent">
+              <span className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-accent-soft text-accent-deep">
                 <ServiceIcon name={service.icon} size={26} />
               </span>
 
@@ -115,7 +115,7 @@ export default async function ServicePage({ params }: PageProps) {
           <ul className="grid gap-x-10 gap-y-3.5 sm:grid-cols-2 lg:grid-cols-3">
             {service.inclusions.map((inclusion) => (
               <li key={inclusion.id} className="flex items-start gap-2.5">
-                <span className="mt-0.5 flex h-[18px] w-[18px] flex-shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent">
+                <span className="mt-0.5 flex h-[18px] w-[18px] flex-shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent-deep">
                   <CheckIcon size={11} />
                 </span>
                 <span className="text-[14px] leading-relaxed text-ink-dim">
@@ -153,7 +153,7 @@ export default async function ServicePage({ params }: PageProps) {
                       </p>
                     )}
                   </div>
-                  <span className="disp flex-shrink-0 text-[15px] font-bold text-accent">
+                  <span className="disp flex-shrink-0 text-[15px] font-bold text-accent-deep">
                     +{formatPrice(option.priceCents)}
                   </span>
                 </li>
@@ -167,10 +167,10 @@ export default async function ServicePage({ params }: PageProps) {
       <section className="flex w-full justify-center bg-dark px-5 py-14 md:px-8 md:py-16">
         <div className="flex w-full max-w-[1280px] flex-wrap items-center justify-between gap-7 rounded-[24px] border border-accent/30 p-8 md:p-11">
           <div className="max-w-[520px]">
-            <h2 className="disp mb-2.5 text-[clamp(22px,2.6vw,28px)] font-bold text-[#FAF8F6]">
+            <h2 className="disp mb-2.5 text-[clamp(22px,2.6vw,28px)] font-bold text-on-dark">
               Intéressé par la formule {service.name} ?
             </h2>
-            <p className="text-[14.5px] leading-relaxed text-[#B5AEA7]">
+            <p className="text-[14.5px] leading-relaxed text-on-dark-dim">
               Envoyez-nous votre demande avec le modèle de votre véhicule. On vous répond
               rapidement avec un créneau et un devis confirmé. Aucun paiement en ligne :
               le règlement se fait à l&apos;atelier.
@@ -179,13 +179,13 @@ export default async function ServicePage({ params }: PageProps) {
           <div className="flex flex-col items-start gap-3.5">
             <Link
               href={`/contact?prestation=${service.slug}`}
-              className="btn bg-[#FAF8F6] px-8 py-4 text-[15px] text-ink"
+              className="btn btn-light px-8 py-4 text-[15px]"
             >
               Demander un rendez-vous
             </Link>
             <a
               href={telHref}
-              className="flex items-center gap-2 text-sm font-semibold text-[#D8D2CB]"
+              className="flex items-center gap-2 text-sm font-semibold text-on-dark-dim"
             >
               <PhoneIcon size={15} />
               {settings.phone}

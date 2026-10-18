@@ -196,7 +196,7 @@ export function ServiceForm({
         {options.length === 0 ? (
           <p className="text-[13.5px] text-ink-faint">
             Aucune option enregistrée.{" "}
-            <Link href="/admin/options" className="font-semibold text-accent">
+            <Link href="/admin/options" className="font-semibold text-accent-deep">
               En créer une →
             </Link>
           </p>
@@ -209,7 +209,7 @@ export function ServiceForm({
                   name="options"
                   value={option.id}
                   defaultChecked={values.selectedOptionIds.includes(option.id)}
-                  className="mt-0.5 h-4 w-4 flex-shrink-0 accent-[#C2887A]"
+                  className="mt-0.5 h-4 w-4 flex-shrink-0 accent-[#A6543D]"
                 />
                 <span>
                   <span className="block text-[13.5px] font-medium leading-snug">

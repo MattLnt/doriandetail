@@ -60,7 +60,7 @@ export default async function AdminServicesPage() {
                     <td className="px-5 py-3.5">
                       <Link
                         href={`/admin/prestations/${service.id}`}
-                        className="text-[14px] font-semibold hover:text-accent"
+                        className="text-[14px] font-semibold hover:text-accent-deep"
                       >
                         {service.name}
                       </Link>

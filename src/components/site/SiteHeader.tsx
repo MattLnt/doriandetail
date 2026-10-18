@@ -18,7 +18,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-line bg-white/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-dark-line bg-dark/92 text-on-dark backdrop-blur-md">
       <div className="shell flex items-center justify-between gap-6 py-4">
         <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
           {/* Le logo fourni inclut le mot-clé sous le monogramme : on recadre
@@ -35,28 +35,28 @@ export function SiteHeader() {
           </span>
           <span className="leading-none">
             <span className="disp block text-[17px] font-bold tracking-wide">DORIAN</span>
-            <span className="block text-[10.5px] font-semibold tracking-[0.22em] text-ink-dim">
+            <span className="block text-[10.5px] font-semibold tracking-[0.22em] text-on-dark-dim">
               DETAILING
             </span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-7 text-sm font-medium text-ink-dim lg:flex">
+        <nav className="hidden items-center gap-7 text-sm font-medium text-on-dark-dim lg:flex">
           {NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="transition-colors hover:text-ink">
+            <Link key={item.href} href={item.href} className="transition-colors hover:text-accent">
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <Link href="/contact" className="btn btn-primary hidden lg:inline-flex">
+        <Link href="/contact" className="btn btn-accent hidden lg:inline-flex">
           Nous contacter
           <ArrowRightIcon size={15} />
         </Link>
 
         <button
           type="button"
-          className="flex h-10 w-10 items-center justify-center rounded-[10px] border border-line lg:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-[10px] border border-dark-line lg:hidden"
           aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
           aria-expanded={open}
           onClick={() => setOpen((value) => !value)}
@@ -77,13 +77,13 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <nav className="border-t border-line bg-white lg:hidden">
+        <nav className="border-t border-dark-line bg-dark lg:hidden">
           <div className="shell flex flex-col py-2">
             {NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="border-b border-line py-3.5 text-[15px] font-medium text-ink-dim last:border-0"
+                className="border-b border-dark-line py-3.5 text-[15px] font-medium text-on-dark-dim last:border-0"
                 onClick={() => setOpen(false)}
               >
                 {item.label}
@@ -91,7 +91,7 @@ export function SiteHeader() {
             ))}
             <Link
               href="/contact"
-              className="btn btn-primary my-4"
+              className="btn btn-accent my-4"
               onClick={() => setOpen(false)}
             >
               Nous contacter

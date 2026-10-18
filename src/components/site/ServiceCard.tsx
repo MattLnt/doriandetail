@@ -7,14 +7,18 @@ import { startingPrice, type PublicService } from "@/lib/queries";
 export function ServiceCard({ service }: { service: PublicService }) {
   const from = startingPrice(service);
 
+  const dark = service.featured;
+
   return (
     <Link
       href={`/prestations/${service.slug}`}
-      className={`card group flex flex-col p-6 transition-colors hover:border-accent/50 ${
-        service.featured ? "border-accent/35 bg-gradient-to-br from-accent-soft to-surface" : ""
+      className={`group flex flex-col p-6 transition-colors ${
+        dark
+          ? "card-dark border-accent/40 hover:border-accent"
+          : "card hover:border-accent/50"
       }`}
     >
-      <span className="text-accent">
+      <span className={dark ? "text-accent" : "text-accent-deep"}>
         <ServiceIcon name={service.icon} size={26} />
       </span>
 
@@ -23,7 +27,11 @@ export function ServiceCard({ service }: { service: PublicService }) {
       )}
 
       <h3 className="mt-4 text-[16.5px] font-semibold leading-snug">{service.name}</h3>
-      <p className="mt-2 line-clamp-3 text-[13.5px] leading-relaxed text-ink-dim">
+      <p
+        className={`mt-2 line-clamp-3 text-[13.5px] leading-relaxed ${
+          dark ? "text-on-dark-dim" : "text-ink-dim"
+        }`}
+      >
         {service.tagline}
       </p>
 
@@ -31,7 +39,11 @@ export function ServiceCard({ service }: { service: PublicService }) {
         <span className="disp text-[19px] font-bold">
           {from === null ? "Sur devis" : `dès ${formatPrice(from)}`}
         </span>
-        <span className="text-[13px] font-semibold text-accent transition-transform group-hover:translate-x-0.5">
+        <span
+          className={`text-[13px] font-semibold transition-transform group-hover:translate-x-0.5 ${
+            dark ? "text-accent" : "text-accent-deep"
+          }`}
+        >
           En savoir plus →
         </span>
       </div>

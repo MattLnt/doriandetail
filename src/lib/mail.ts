@@ -55,7 +55,7 @@ export async function sendContactNotification(
           .join("")}
       </table>
       <p style="margin:0 0 6px;color:#5C5751;font-size:13px">Message :</p>
-      <div style="white-space:pre-wrap;font-size:14px;background:#F7F5F3;border:1px solid rgba(20,20,19,0.1);border-radius:10px;padding:14px">${escapeHtml(
+      <div style="white-space:pre-wrap;font-size:14px;background:#F6F6F6;border:1px solid rgba(10,10,10,0.11);border-radius:10px;padding:14px">${escapeHtml(
         payload.message,
       )}</div>
     </div>

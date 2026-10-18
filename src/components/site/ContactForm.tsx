@@ -24,7 +24,7 @@ export function ContactForm({
   if (state.status === "success") {
     return (
       <div className="card flex flex-col items-start gap-4 p-8">
-        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-soft text-accent">
+        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-soft text-accent-deep">
           <CheckIcon size={20} />
         </span>
         <h2 className="text-[19px] font-bold">Demande envoyée</h2>

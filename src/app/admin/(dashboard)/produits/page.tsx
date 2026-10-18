@@ -86,7 +86,7 @@ export default async function AdminProductsPage() {
                       <span className="min-w-0">
                         <Link
                           href={`/admin/produits/${product.id}`}
-                          className="block text-[14px] font-semibold hover:text-accent"
+                          className="block text-[14px] font-semibold hover:text-accent-deep"
                         >
                           {product.name}
                         </Link>

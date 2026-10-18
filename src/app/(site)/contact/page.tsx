@@ -66,12 +66,12 @@ export default async function ContactPage({ searchParams }: PageProps) {
 
           <dl className="flex flex-col gap-5">
             <InfoRow Icon={PhoneIcon} label="Téléphone">
-              <a href={telHref} className="hover:text-accent">
+              <a href={telHref} className="hover:text-accent-deep">
                 {settings.phone}
               </a>
             </InfoRow>
             <InfoRow Icon={MailIcon} label="Email">
-              <a href={`mailto:${settings.email}`} className="hover:text-accent">
+              <a href={`mailto:${settings.email}`} className="hover:text-accent-deep">
                 {settings.email}
               </a>
             </InfoRow>
@@ -98,7 +98,7 @@ export default async function ContactPage({ searchParams }: PageProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-[38px] w-[38px] items-center justify-center rounded-full border border-line transition-colors hover:border-accent hover:text-accent"
+                  className="flex h-[38px] w-[38px] items-center justify-center rounded-full border border-line transition-colors hover:border-accent hover:text-accent-deep"
                 >
                   <Icon size={16} />
                 </a>
@@ -130,7 +130,7 @@ function InfoRow({
 }) {
   return (
     <div className="flex items-start gap-3.5">
-      <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] bg-accent-soft text-accent">
+      <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] bg-accent-soft text-accent-deep">
         <Icon size={17} />
       </span>
       <div>

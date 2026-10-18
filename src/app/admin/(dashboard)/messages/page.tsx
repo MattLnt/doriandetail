@@ -61,7 +61,7 @@ export default async function AdminMessagesPage({ searchParams }: PageProps) {
                 <div>
                   <h2 className="text-[16px] font-bold">{message.name}</h2>
                   <p className="mt-1 text-[13px] text-ink-dim">
-                    <a href={`mailto:${message.email}`} className="hover:text-accent">
+                    <a href={`mailto:${message.email}`} className="hover:text-accent-deep">
                       {message.email}
                     </a>
                     {message.phone && (
@@ -69,7 +69,7 @@ export default async function AdminMessagesPage({ searchParams }: PageProps) {
                         {" · "}
                         <a
                           href={`tel:${message.phone.replace(/[^0-9+]/g, "")}`}
-                          className="hover:text-accent"
+                          className="hover:text-accent-deep"
                         >
                           {message.phone}
                         </a>

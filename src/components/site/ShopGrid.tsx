@@ -58,7 +58,7 @@ export function ShopGrid({
       <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {visible.map((product) => (
           <article key={product.id} className="card flex flex-col overflow-hidden">
-            <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#F2EEEA] to-[#E6E0D9]">
+            <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-dark-2 to-dark">
               {product.imageUrl ? (
                 // Image non optimisée : les visuels produits sont servis depuis /public
                 // ou une URL externe fournie dans le dashboard.
@@ -83,7 +83,7 @@ export function ShopGrid({
 
             <div className="flex flex-1 flex-col p-5">
               {product.category && (
-                <p className="text-[11.5px] font-semibold uppercase tracking-wider text-accent">
+                <p className="text-[11.5px] font-semibold uppercase tracking-wider text-accent-deep">
                   {product.category.name}
                 </p>
               )}
@@ -106,7 +106,7 @@ export function ShopGrid({
                 </span>
                 <Link
                   href={`/contact?produit=${encodeURIComponent(product.name)}`}
-                  className="text-[13px] font-semibold text-accent"
+                  className="text-[13px] font-semibold text-accent-deep"
                 >
                   Demander →
                 </Link>

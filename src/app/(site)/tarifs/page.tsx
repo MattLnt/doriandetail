@@ -72,7 +72,7 @@ export default async function TarifsPage() {
                       <th scope="row" className="px-5 py-4 align-top">
                         <Link
                           href={`/prestations/${service.slug}`}
-                          className="text-[14px] font-semibold hover:text-accent"
+                          className="text-[14px] font-semibold hover:text-accent-deep"
                         >
                           {service.name}
                         </Link>
@@ -101,7 +101,7 @@ export default async function TarifsPage() {
                                 <span className="text-[12px] text-ink-faint line-through">
                                   {formatPrice(price!.priceCents)}
                                 </span>
-                                <span className="disp text-[14.5px] font-bold text-accent">
+                                <span className="disp text-[14.5px] font-bold text-accent-deep">
                                   {formatPrice(amount)}
                                 </span>
                               </span>
@@ -155,7 +155,7 @@ export default async function TarifsPage() {
                       </p>
                     )}
                   </div>
-                  <span className="disp flex-shrink-0 text-[15px] font-bold text-accent">
+                  <span className="disp flex-shrink-0 text-[15px] font-bold text-accent-deep">
                     +{formatPrice(option.priceCents)}
                   </span>
                 </li>

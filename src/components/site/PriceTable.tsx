@@ -50,7 +50,7 @@ export function PriceTable({ service }: { service: PublicService }) {
                     <span className="text-[13px] text-ink-faint line-through">
                       {formatPrice(price.priceCents)}
                     </span>
-                    <span className="disp text-[15.5px] font-bold text-accent">
+                    <span className="disp text-[15.5px] font-bold text-accent-deep">
                       {formatPrice(price.promoCents)}
                     </span>
                     <span className="badge badge-accent">Promo</span>

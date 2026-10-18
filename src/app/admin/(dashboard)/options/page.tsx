@@ -90,7 +90,7 @@ export default async function AdminOptionsPage() {
                       type="checkbox"
                       name="published"
                       defaultChecked={option.published}
-                      className="h-4 w-4 accent-[#C2887A]"
+                      className="h-4 w-4 accent-[#A6543D]"
                     />
                     <span className="text-[13.5px] font-medium">Visible sur le site</span>
                   </label>

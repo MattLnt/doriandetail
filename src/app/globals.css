@@ -2,17 +2,32 @@
 
 /* ── Jetons de design — reprises des maquettes HTML ─────────────────────── */
 @theme {
+  /* Fonds — gris strictement neutres, aucun réchauffement */
   --color-bg: #ffffff;
-  --color-surface: #f7f5f3;
-  --color-surface-2: #efebe7;
-  --color-line: rgba(20, 20, 19, 0.1);
-  --color-ink: #141413;
-  --color-ink-dim: #5c5751;
-  --color-ink-faint: #938d85;
-  --color-accent: #c2887a;
-  --color-accent-ink: #2a1812;
-  --color-accent-soft: rgba(194, 136, 122, 0.14);
-  --color-dark: #121110;
+  --color-surface: #f6f6f6;
+  --color-surface-2: #ededed;
+  --color-line: rgba(10, 10, 10, 0.11);
+
+  /* Textes sur fond clair */
+  --color-ink: #0a0a0a;
+  --color-ink-dim: #525252;
+  --color-ink-faint: #8a8a8a;
+
+  /* Terracotta de la marque (relevé sur doriandetailing.be) */
+  --color-accent: #cc9286;
+  /* Variante foncée — obligatoire pour du TEXTE sur fond clair :
+     #cc9286 sur blanc ne donne que 2,6:1, celui-ci donne 5,3:1. */
+  --color-accent-deep: #a6543d;
+  --color-accent-ink: #1b0f0a;
+  --color-accent-soft: rgba(204, 146, 134, 0.14);
+
+  /* Sections noires */
+  --color-dark: #0a0a0a;
+  --color-dark-2: #161616;
+  --color-dark-line: rgba(255, 255, 255, 0.12);
+  --color-on-dark: #f5f3f2;
+  --color-on-dark-dim: #a8a4a2;
+  --color-on-dark-faint: #8c8886;
 
   --font-display: var(--font-space-grotesk), system-ui, sans-serif;
   --font-sans: var(--font-work-sans), system-ui, sans-serif;
@@ -105,7 +120,7 @@
   }
 
   .btn-primary:hover:not(:disabled) {
-    background: #2c2a27;
+    background: #262626;
   }
 
   .btn-ghost {
@@ -124,7 +139,7 @@
   }
 
   .btn-accent:hover:not(:disabled) {
-    background: #b57a6c;
+    background: #bd7f70;
   }
 
   .btn-sm {
@@ -148,11 +163,45 @@
     border-radius: var(--radius-card);
   }
 
+  /* Carte posée sur une section noire */
+  .card-dark {
+    background: var(--color-dark-2);
+    border: 1px solid var(--color-dark-line);
+    border-radius: var(--radius-card);
+    color: var(--color-on-dark);
+  }
+
+  /* Bouton clair, pour les sections noires */
+  .btn-light {
+    background: var(--color-on-dark);
+    color: var(--color-ink);
+  }
+
+  .btn-light:hover:not(:disabled) {
+    background: #ffffff;
+  }
+
+  /* Bouton fantôme sur fond noir */
+  .btn-ghost-dark {
+    background: transparent;
+    color: var(--color-on-dark);
+    border-color: var(--color-dark-line);
+  }
+
+  .btn-ghost-dark:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
   .eyebrow {
     font-size: 12.5px;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
+    color: var(--color-accent-deep);
+  }
+
+  /* Même eyebrow, mais posé sur une section noire */
+  .eyebrow-light {
     color: var(--color-accent);
   }
 

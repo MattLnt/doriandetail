@@ -132,7 +132,7 @@ export function Toggle({
         type="checkbox"
         name={name}
         defaultChecked={defaultChecked}
-        className="mt-0.5 h-4 w-4 flex-shrink-0 accent-[#C2887A]"
+        className="mt-0.5 h-4 w-4 flex-shrink-0 accent-[#A6543D]"
       />
       <span>
         <span className="block text-[14px] font-medium">{label}</span>

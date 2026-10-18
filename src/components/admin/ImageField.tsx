@@ -94,7 +94,7 @@ export function ImageField({
             {value && (
               <button
                 type="button"
-                className="text-[13px] text-ink-dim hover:text-accent"
+                className="text-[13px] text-ink-dim hover:text-accent-deep"
                 onClick={() => setValue("")}
               >
                 Retirer l&apos;image

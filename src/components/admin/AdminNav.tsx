@@ -104,12 +104,12 @@ export function AdminNav({
             <Link
               href="/"
               target="_blank"
-              className="mb-2 block text-[13px] text-ink-dim hover:text-accent"
+              className="mb-2 block text-[13px] text-ink-dim hover:text-accent-deep"
             >
               Voir le site →
             </Link>
             <form action={logout}>
-              <button type="submit" className="text-[13px] text-ink-dim hover:text-accent">
+              <button type="submit" className="text-[13px] text-ink-dim hover:text-accent-deep">
                 Se déconnecter
               </button>
             </form>
