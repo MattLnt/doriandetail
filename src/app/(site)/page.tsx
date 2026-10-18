@@ -88,21 +88,22 @@ export default async function HomePage() {
         </div>
 
         <div className="relative z-10 mt-12 border-t border-dark-line">
-          <dl className="shell flex flex-wrap gap-x-12 gap-y-4 py-6">
-            <div className="flex items-baseline gap-2.5">
-              <dt className="sr-only">Véhicules traités</dt>
+          {/* Le libelle visible EST le <dt> : un <dt> masque en plus le faisait
+              annoncer deux fois, et un <p> est invalide a cet endroit dans un
+              <dl>. flex-row-reverse affiche la valeur avant son libelle sans
+              casser l'ordre dt/dd attendu dans le DOM. */}
+          <dl className="shell flex flex-wrap justify-center gap-x-12 gap-y-4 py-6">
+            <div className="flex flex-row-reverse items-baseline gap-2.5">
+              <dt className="text-[12.5px] text-on-dark-faint">véhicules traités</dt>
               <dd className="disp text-[22px] font-bold">{settings.statVehicles}</dd>
-              <p className="text-[12.5px] text-on-dark-faint">véhicules traités</p>
             </div>
-            <div className="flex items-baseline gap-2.5">
-              <dt className="sr-only">Avis clients</dt>
+            <div className="flex flex-row-reverse items-baseline gap-2.5">
+              <dt className="text-[12.5px] text-on-dark-faint">avis clients</dt>
               <dd className="disp text-[22px] font-bold">{settings.statRating}</dd>
-              <p className="text-[12.5px] text-on-dark-faint">avis clients</p>
             </div>
-            <div className="flex items-baseline gap-2.5">
-              <dt className="sr-only">Travail à la main</dt>
+            <div className="flex flex-row-reverse items-baseline gap-2.5">
+              <dt className="text-[12.5px] text-on-dark-faint">travail à la main</dt>
               <dd className="disp text-[22px] font-bold">100%</dd>
-              <p className="text-[12.5px] text-on-dark-faint">travail à la main</p>
             </div>
           </dl>
         </div>
