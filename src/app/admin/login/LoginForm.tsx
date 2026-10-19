@@ -3,6 +3,8 @@
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 
+import { ArrowRightIcon } from "@/components/Icons";
+
 import { login, type LoginState } from "./actions";
 
 const initialState: LoginState = {};
@@ -11,9 +13,8 @@ export function LoginForm({ next }: { next?: string }) {
   const [state, formAction] = useActionState(login, initialState);
 
   return (
-    <form action={formAction} className="rounded-[18px] border border-line bg-white p-7">
-      <h1 className="mb-6 text-[19px] font-bold">Connexion</h1>
-
+    // Le titre est porte par la page : un <h1> ici en ferait un second.
+    <form action={formAction} className="card p-6 sm:p-7">
       {state.error && (
         <p
           role="alert"
@@ -62,8 +63,13 @@ export function LoginForm({ next }: { next?: string }) {
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <button type="submit" className="btn btn-primary w-full" disabled={pending}>
+    <button
+      type="submit"
+      className="btn btn-primary w-full py-3.5"
+      disabled={pending}
+    >
       {pending ? "Connexion…" : "Se connecter"}
+      {!pending && <ArrowRightIcon size={14} />}
     </button>
   );
 }
