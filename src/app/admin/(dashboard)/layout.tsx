@@ -27,9 +27,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const pendingMessages = await prisma.contactMessage.count({ where: { handled: false } });
 
   return (
-    <div className="flex min-h-screen flex-col bg-surface lg:flex-row">
+    // admin-dark redefinit les jetons de couleur pour tout ce qui est en
+    // dessous : voir le bloc « Dashboard en sombre » dans globals.css.
+    <div className="admin-dark flex min-h-screen flex-col bg-surface text-ink lg:flex-row">
       <AdminNav email={admin.email} pendingMessages={pendingMessages} />
-      <div className="min-w-0 flex-1">
+      <div className="admin-gradient-bg min-w-0 flex-1">
         <div className="mx-auto max-w-[1100px] px-5 py-8 md:px-8 md:py-10">{children}</div>
       </div>
     </div>

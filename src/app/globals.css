@@ -322,3 +322,107 @@
     color: var(--color-ink-faint);
   }
 }
+
+/* ── Dashboard en sombre ──────────────────────────────────────────────────
+   Plutot que de reprendre chaque page, on redefinit les jetons de couleur
+   sur la coquille du dashboard. Toutes les utilitaires (bg-surface, text-ink,
+   border-line) et tous les composants (.card, .field, .btn) lisent ces
+   variables : ils basculent donc d'un coup.
+
+   Le site public n'est pas concerne, la portee s'arrete a .admin-dark. */
+@layer components {
+  .admin-dark {
+    --color-bg: #121212;
+    --color-surface: #0a0a0a;
+    --color-surface-2: #242424;
+    --color-line: rgba(255, 255, 255, 0.13);
+
+    --color-ink: #f5f3f2;
+    --color-ink-dim: #a8a4a2;
+    --color-ink-faint: #817d7b;
+
+    /* Sur fond clair il fallait la variante foncee pour le contraste. Sur
+       fond noir c'est l'inverse : #a6543d y tombe a 2,4:1, le terracotta
+       d'origine donne 6,1:1. */
+    --color-accent-deep: var(--color-accent);
+  }
+
+  /* Le bouton principal prenait --color-ink, devenu presque blanc : il
+     serait blanc sur blanc. Il passe en degrade terracotta. */
+  .admin-dark .btn-primary {
+    background: linear-gradient(135deg, #d4a093 0%, var(--color-accent) 48%, #b1705f 100%);
+    color: var(--color-accent-ink);
+  }
+
+  .admin-dark .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #dcab9f 0%, #d19b8d 48%, #bd7f70 100%);
+  }
+
+  .admin-dark .btn-ghost:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  /* Les rouges d'origine etaient regles pour du texte sur blanc. */
+  .admin-dark .btn-danger {
+    border-color: rgba(224, 122, 108, 0.38);
+    color: #e8907f;
+  }
+
+  .admin-dark .btn-danger:hover:not(:disabled) {
+    background: rgba(224, 122, 108, 0.12);
+  }
+
+  .admin-dark .error-text {
+    color: #e8907f;
+  }
+
+  .admin-dark .field {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .admin-dark .field:focus {
+    background: rgba(255, 255, 255, 0.09);
+    box-shadow: 0 0 0 3px rgba(204, 146, 134, 0.22);
+  }
+
+  /* ── Degrades ─────────────────────────────────────────────────────────
+     Discrets et volontairement diriges : ils donnent une profondeur au fond
+     et marquent les elements actifs, sans transformer le dashboard en
+     affiche. */
+
+  /* Fond general : halo terracotta tres dilue en haut a gauche. */
+  .admin-gradient-bg {
+    background:
+      radial-gradient(
+        ellipse 75% 55% at 12% 0%,
+        rgba(204, 146, 134, 0.13) 0%,
+        rgba(204, 146, 134, 0) 62%
+      ),
+      linear-gradient(180deg, #141414 0%, var(--color-surface) 46%);
+  }
+
+  /* Barre laterale : plus sombre que le contenu, pour la detacher. */
+  .admin-gradient-aside {
+    background: linear-gradient(185deg, #171717 0%, #0d0d0d 72%);
+  }
+
+  /* Element de navigation actif. */
+  .admin-gradient-active {
+    background: linear-gradient(
+      100deg,
+      rgba(204, 146, 134, 0.26) 0%,
+      rgba(204, 146, 134, 0.09) 100%
+    );
+  }
+
+  /* Cartes mises en avant (chiffres de la vue d'ensemble). */
+  .admin-gradient-card {
+    background:
+      radial-gradient(
+        ellipse 120% 100% at 0% 0%,
+        rgba(204, 146, 134, 0.14) 0%,
+        rgba(204, 146, 134, 0) 70%
+      ),
+      linear-gradient(160deg, #1c1c1c 0%, #131313 100%);
+  }
+}

@@ -53,7 +53,7 @@ export default async function AdminMessagesPage({ searchParams }: PageProps) {
           {messages.map((message) => (
             <article
               key={message.id}
-              className={`rounded-[16px] border bg-white p-6 ${
+              className={`rounded-[16px] border bg-bg p-6 ${
                 message.handled ? "border-line" : "border-accent/40"
               }`}
             >
@@ -153,7 +153,7 @@ function FilterLink({
       className={`rounded-full border px-4 py-2 text-[13px] font-medium transition-colors ${
         active
           ? "border-ink bg-ink text-white"
-          : "border-line bg-white text-ink-dim hover:border-accent/50"
+          : "border-line bg-bg text-ink-dim hover:border-accent/50"
       }`}
     >
       {label}

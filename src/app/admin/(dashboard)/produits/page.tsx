@@ -33,7 +33,7 @@ export default async function AdminProductsPage() {
           action={{ href: "/admin/produits/nouveau", label: "Nouveau produit" }}
         />
       ) : (
-        <div className="overflow-hidden rounded-[16px] border border-line bg-white">
+        <div className="overflow-hidden rounded-[16px] border border-line bg-bg">
           <table className="w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-line bg-surface">

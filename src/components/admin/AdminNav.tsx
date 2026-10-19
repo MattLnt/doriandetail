@@ -32,9 +32,9 @@ export function AdminNav({
   return (
     <>
       {/* Barre mobile */}
-      <div className="flex items-center justify-between border-b border-line bg-white px-5 py-3.5 lg:hidden">
+      <div className="admin-gradient-aside flex items-center justify-between border-b border-line px-5 py-3.5 lg:hidden">
         <Link href="/admin" className="disp text-[15px] font-bold">
-          DORIAN · ADMIN
+          DORIAN<span className="text-accent"> · </span>ADMIN
         </Link>
         <button
           type="button"
@@ -61,11 +61,13 @@ export function AdminNav({
       <aside
         className={`${
           open ? "block" : "hidden"
-        } border-b border-line bg-white lg:sticky lg:top-0 lg:block lg:h-screen lg:w-[244px] lg:flex-shrink-0 lg:border-b-0 lg:border-r`}
+        } admin-gradient-aside border-b border-line lg:sticky lg:top-0 lg:block lg:h-screen lg:w-[244px] lg:flex-shrink-0 lg:border-b-0 lg:border-r`}
       >
         <div className="flex h-full flex-col p-5">
           <Link href="/admin" className="mb-7 hidden lg:block">
-            <span className="disp block text-[16px] font-bold tracking-wide">DORIAN</span>
+            <span className="disp block text-[16px] font-bold tracking-wide">
+              DORIAN<span className="text-accent">.</span>
+            </span>
             <span className="block text-[10.5px] font-semibold tracking-[0.2em] text-ink-faint">
               ADMINISTRATION
             </span>
@@ -79,15 +81,15 @@ export function AdminNav({
                 onClick={() => setOpen(false)}
                 className={`flex items-center justify-between rounded-[10px] px-3.5 py-2.5 text-[14px] font-medium transition-colors ${
                   isActive(link)
-                    ? "bg-ink text-white"
-                    : "text-ink-dim hover:bg-surface hover:text-ink"
+                    ? "admin-gradient-active border border-accent/30 text-ink"
+                    : "border border-transparent text-ink-dim hover:bg-white/5 hover:text-ink"
                 }`}
               >
                 {link.label}
                 {link.href === "/admin/messages" && pendingMessages > 0 && (
                   <span
                     className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${
-                      isActive(link) ? "bg-white/20 text-white" : "bg-accent text-accent-ink"
+                      isActive(link) ? "bg-accent text-accent-ink" : "bg-accent/85 text-accent-ink"
                     }`}
                   >
                     {pendingMessages}

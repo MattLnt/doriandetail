@@ -42,7 +42,7 @@ export function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-[16px] border border-line bg-white p-6 md:p-7">
+    <section className="rounded-[16px] border border-line bg-bg p-6 md:p-7">
       {title && <h2 className="text-[17px] font-bold">{title}</h2>}
       {description && (
         <p className="mt-1.5 text-[13px] leading-relaxed text-ink-faint">{description}</p>
@@ -106,8 +106,8 @@ export function Feedback({
       role={isError ? "alert" : "status"}
       className={`rounded-[10px] px-4 py-3 text-[13.5px] ${
         isError
-          ? "border border-[rgba(176,58,46,0.3)] bg-[rgba(176,58,46,0.06)] text-[#b03a2e]"
-          : "border border-[rgba(45,122,78,0.3)] bg-[rgba(45,122,78,0.08)] text-[#2d7a4e]"
+          ? "border border-[rgba(224,122,108,0.38)] bg-[rgba(224,122,108,0.12)] text-[#e8907f]"
+          : "border border-[rgba(92,190,133,0.34)] bg-[rgba(92,190,133,0.11)] text-[#7fd4a3]"
       }`}
     >
       {state.message}
@@ -262,7 +262,7 @@ export function EmptyState({
   action?: { href: string; label: string };
 }) {
   return (
-    <div className="rounded-[16px] border border-dashed border-line bg-white p-10 text-center">
+    <div className="rounded-[16px] border border-dashed border-line bg-bg p-10 text-center">
       <p className="text-[15px] font-semibold">{title}</p>
       <p className="mx-auto mt-2 max-w-[400px] text-[13.5px] leading-relaxed text-ink-faint">
         {description}

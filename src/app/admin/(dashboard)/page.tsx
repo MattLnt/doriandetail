@@ -112,14 +112,14 @@ function Stat({
   return (
     <Link
       href={href}
-      className={`rounded-[16px] border bg-white p-5 transition-colors hover:border-accent/50 ${
+      className={`admin-gradient-card rounded-[16px] border p-5 transition-colors hover:border-accent/50 ${
         highlight ? "border-accent/50" : "border-line"
       }`}
     >
       <p className="text-[12px] font-semibold uppercase tracking-wider text-ink-faint">
         {label}
       </p>
-      <p className="disp mt-2 text-[28px] font-bold">{value}</p>
+      <p className="disp mt-2 text-[28px] font-bold text-accent">{value}</p>
     </Link>
   );
 }
