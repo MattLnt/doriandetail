@@ -3,26 +3,31 @@ import Link from "next/link";
 
 import {
   ArrowRightIcon,
+  GoogleIcon,
   PhoneIcon,
   StarFilledIcon,
 } from "@/components/Icons";
 import { ServiceCard } from "@/components/site/ServiceCard";
 import { formatPrice } from "@/lib/format";
-import {
-  getPublishedServices,
-  getPublishedTestimonials,
-  getSettings,
-  startingPrice,
-} from "@/lib/queries";
+import { formatRating, getGoogleReviews } from "@/lib/google-reviews";
+import { getPublishedServices, getSettings, startingPrice } from "@/lib/queries";
 
 export const revalidate = 300;
 
 export default async function HomePage() {
-  const [settings, services, testimonials] = await Promise.all([
+  const [settings, services, google] = await Promise.all([
     getSettings(),
     getPublishedServices(),
-    getPublishedTestimonials(),
+    getGoogleReviews(),
   ]);
+
+  // Sans cle d'API, on se rabat sur la note saisie dans les reglages : la
+  // section garde du sens, elle perd seulement les citations.
+  const rating = google ? formatRating(google.rating) : settings.googleRating;
+  const reviewCount = google ? google.reviewCount : settings.googleReviewCount;
+  const reviewsUrl =
+    google?.mapsUrl ?? settings.googleReviewsUrl ?? settings.googleUrl;
+  const reviews = (google?.reviews ?? []).slice(0, 3);
 
   const highlighted = services.filter((s) => s.featured).slice(0, 3);
   const pricingTeaser = highlighted.length === 3 ? highlighted : services.slice(0, 3);
@@ -201,64 +206,93 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Avis ───────────────────────────────────────────────────────────── */}
-      <section id="avis" className="border-b border-line py-16 md:py-20">
+      <section id="avis" className="border-b border-line bg-surface py-16 md:py-20">
         <div className="shell">
-          <div className="mx-auto mb-11 max-w-[520px] text-center">
+          <div className="mx-auto mb-9 max-w-[520px] text-center">
             <p className="eyebrow">Ils nous ont recommandés</p>
             <h2 className="mt-3 text-[clamp(26px,3vw,34px)] font-bold">
               La satisfaction client avant tout
             </h2>
           </div>
 
-          {/* Note Google. Les chiffres viennent des reglages : ils ne sont pas
-              tires de l'API, donc ils doivent rester verifiables d'un clic. */}
-          {settings.googleReviewsUrl && (
-            <div className="card mx-auto flex max-w-[560px] flex-col items-center gap-4 p-8 text-center">
-              <p className="disp text-[52px] font-bold leading-none">
-                {settings.googleRating}
-              </p>
-              <div
-                className="flex gap-1 text-accent-deep"
-                aria-label={`Note de ${settings.googleRating} sur 5`}
-              >
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <StarFilledIcon key={index} size={20} />
-                ))}
+          {/* Bandeau de note. Les chiffres viennent de l'API Google, donc ils
+              suivent la fiche sans intervention. Le lien reste en evidence :
+              une note affichee doit toujours etre verifiable d'un clic. */}
+          <div className="card mx-auto flex max-w-[780px] flex-col items-center gap-5 px-6 py-5 text-center sm:flex-row sm:justify-between sm:gap-8 sm:text-left">
+            <div className="flex items-center gap-4">
+              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-surface-2">
+                <GoogleIcon size={21} />
+              </span>
+              <div>
+                <div className="flex items-center justify-center gap-2.5 sm:justify-start">
+                  <span className="disp text-[28px] font-bold leading-none">
+                    {rating}
+                  </span>
+                  <span
+                    className="flex gap-0.5 text-accent-deep"
+                    aria-label={`Note de ${rating} sur 5`}
+                  >
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <StarFilledIcon key={index} size={14} />
+                    ))}
+                  </span>
+                </div>
+                <p className="mt-1.5 text-[13.5px] text-ink-dim">
+                  {reviewCount} avis Google
+                </p>
               </div>
-              <p className="text-[14.5px] text-ink-dim">
-                sur {settings.googleReviewCount} avis Google
-              </p>
+            </div>
+
+            {reviewsUrl && (
               <a
-                href={settings.googleReviewsUrl}
+                href={reviewsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-primary mt-1"
+                className="btn btn-ghost btn-sm shrink-0"
               >
-                Lire les avis sur Google
-                <ArrowRightIcon size={15} />
+                Voir tous les avis
+                <ArrowRightIcon size={14} />
               </a>
-            </div>
-          )}
+            )}
+          </div>
 
-          {testimonials.length > 0 && (
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
-              {testimonials.map((testimonial) => (
-                <figure key={testimonial.id} className="card p-7">
+          {reviews.length > 0 && (
+            <div className="mt-5 grid gap-4 md:grid-cols-3">
+              {reviews.map((review) => (
+                <figure key={review.id} className="card flex flex-col p-6">
                   <div
                     className="mb-3.5 flex gap-0.5 text-accent-deep"
-                    aria-label={`${testimonial.rating} étoiles sur 5`}
+                    aria-label={`${review.rating} étoiles sur 5`}
                   >
-                    {Array.from({ length: testimonial.rating }).map((_, index) => (
-                      <StarFilledIcon key={index} size={15} />
+                    {Array.from({ length: review.rating }).map((_, index) => (
+                      <StarFilledIcon key={index} size={14} />
                     ))}
                   </div>
-                  <blockquote className="mb-5 text-sm leading-relaxed text-ink-dim">
-                    « {testimonial.content} »
+
+                  <blockquote className="text-sm leading-relaxed text-ink-dim">
+                    {review.text}
                   </blockquote>
-                  <figcaption className="text-[13px] font-semibold">
-                    {testimonial.author}
-                    {testimonial.location ? ` — ${testimonial.location}` : ""}
+
+                  <figcaption className="mt-5 flex items-center gap-3 border-t border-line pt-4">
+                    {/* Initiale plutot que la photo de profil : pas de requete
+                        vers googleusercontent, et un rendu homogene quel que
+                        soit l'avatar du client. */}
+                    <span
+                      aria-hidden
+                      className="grid size-9 shrink-0 place-items-center rounded-full bg-accent-soft text-[13px] font-semibold text-accent-deep"
+                    >
+                      {review.author.slice(0, 1).toUpperCase()}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block truncate text-[13px] font-semibold">
+                        {review.author}
+                      </span>
+                      {review.publishedAgo && (
+                        <span className="block text-[12px] text-ink-faint">
+                          {review.publishedAgo}
+                        </span>
+                      )}
+                    </span>
                   </figcaption>
                 </figure>
               ))}

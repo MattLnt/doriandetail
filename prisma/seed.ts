@@ -7,7 +7,6 @@ import {
   PRODUCT_CATEGORIES,
   SERVICES,
   SERVICE_GROUPS,
-  TESTIMONIALS,
   VEHICLE_CLASSES,
 } from "./seed-data";
 
@@ -149,14 +148,6 @@ async function main() {
       where: { slug: product.slug },
       update: data,
       create: { ...data, slug: product.slug },
-    });
-  }
-
-  console.log("→ Avis clients");
-  const existingTestimonials = await prisma.testimonial.count();
-  if (existingTestimonials === 0) {
-    await prisma.testimonial.createMany({
-      data: TESTIMONIALS.map((t, position) => ({ ...t, position })),
     });
   }
 

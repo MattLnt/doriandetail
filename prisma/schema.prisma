@@ -194,8 +194,9 @@ model SiteSettings {
   googleUrl   String? @default("https://maps.google.com/?cid=7597320346183255348")
   /// Page des avis, via le Place ID ChIJV7m92q3Nw0cRNMUZP5oab2k.
   googleReviewsUrl String? @default("https://search.google.com/local/reviews?placeid=ChIJV7m92q3Nw0cRNMUZP5oab2k")
-  /// Note et nombre d'avis, saisis a la main : sans l'API Google, ils ne se
-  /// mettent pas a jour tout seuls. A reverifier de temps en temps.
+  /// Repli pour la note et le nombre d'avis. En temps normal la page les lit
+  /// via l'API Places (voir src/lib/google-reviews.ts) ; ces deux champs ne
+  /// servent que si GOOGLE_PLACES_API_KEY est absente ou si l'appel echoue.
   googleRating      String @default("5,0")
   googleReviewCount Int    @default(140)
   heroTitle   String  @default("Votre carrosserie mérite mieux qu'un simple lavage.")
@@ -207,16 +208,3 @@ model SiteSettings {
   updatedAt DateTime @updatedAt
 }
 
-/// Avis client affiché sur la page d'accueil
-model Testimonial {
-  id        String   @id @default(cuid())
-  author    String
-  location  String?
-  content   String
-  rating    Int      @default(5)
-  published Boolean  @default(true)
-  position  Int      @default(0)
-  createdAt DateTime @default(now())
-
-  @@index([position])
-}

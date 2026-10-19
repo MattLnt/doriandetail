@@ -98,10 +98,3 @@ export async function getShopData() {
 }
 
 export type PublicProduct = Awaited<ReturnType<typeof getShopData>>["products"][number];
-
-export async function getPublishedTestimonials() {
-  return prisma.testimonial.findMany({
-    where: { published: true },
-    orderBy: { position: "asc" },
-  });
-}

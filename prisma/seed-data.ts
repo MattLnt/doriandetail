@@ -616,14 +616,3 @@ export const PRODUCTS = [
     featured: false,
   },
 ] as const;
-
-/**
- * Vide volontairement : les trois temoignages d'origine etaient inventes et
- * signes "Client Google", ce qui laissait croire a de vrais avis Google.
- * Les avis reels se saisissent dans le back-office, onglet Avis.
- */
-export const TESTIMONIALS: {
-  author: string;
-  location?: string;
-  content: string;
-}[] = [];

@@ -12,7 +12,6 @@ const LINKS = [
   { href: "/admin/options", label: "Options" },
   { href: "/admin/produits", label: "Produits" },
   { href: "/admin/rayons", label: "Rayons boutique" },
-  { href: "/admin/avis", label: "Avis clients" },
   { href: "/admin/messages", label: "Demandes" },
   { href: "/admin/reglages", label: "Réglages du site" },
 ];

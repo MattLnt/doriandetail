@@ -41,6 +41,7 @@ Le site tourne sur http://localhost:3000, le dashboard sur http://localhost:3000
 | `RESEND_API_KEY` | Clé API Resend. Sans elle, les demandes sont quand même enregistrées et visibles dans le dashboard |
 | `CONTACT_FROM` | Expéditeur vérifié dans Resend |
 | `CONTACT_TO` | Destinataire des demandes. Par défaut, l'email des réglages du site |
+| `GOOGLE_PLACES_API_KEY` | Clé Google Places API (New). Alimente la note et les 3 avis de la page d'accueil. Sans elle, la note de repli des réglages s'affiche, sans les citations |
 
 ## Scripts
 
@@ -79,7 +80,6 @@ chaque Server Action.
 | **Options** | Gérer les suppléments (shampoing sièges, ozone, céramique 12 mois…) et leur prix |
 | **Produits** | Gérer la boutique vitrine : nom, rayon, description, contenance, prix indicatif, visuel |
 | **Rayons boutique** | Les filtres de la page Boutique |
-| **Avis clients** | Les témoignages affichés sur la page d'accueil |
 | **Demandes** | Les messages reçus via le formulaire de contact, à marquer comme traités |
 | **Réglages du site** | Coordonnées, horaires, réseaux sociaux, textes de la page d'accueil, mot de passe admin |
 
@@ -110,6 +110,28 @@ production, il faudrait brancher un stockage externe type Vercel Blob.
    npm run db:seed
    ```
 4. Se connecter sur `/admin` et changer le mot de passe dans **Réglages du site**.
+
+## Les avis Google
+
+Les avis de la page d'accueil sont lus **directement sur la fiche Google**, via
+l'API Places (New) — `src/lib/google-reviews.ts`. Il n'y a rien à saisir : la
+note, le nombre d'avis et les trois citations suivent la fiche automatiquement.
+
+Deux limites viennent de Google :
+
+- l'API ne renvoie que **5 avis maximum**, choisis par Google. On ne peut ni en
+  demander plus, ni choisir lesquels. Les 140 avis de la fiche ne sont pas tous
+  accessibles ;
+- ses conditions interdisent de **conserver le contenu des avis plus de 30
+  jours**. Le cache est fixé à 24 h.
+
+Pour l'activer : console Google Cloud → activer **Places API (New)** → créer une
+clé API → la renseigner dans `GOOGLE_PLACES_API_KEY`. L'appel est facturé au
+tarif *Places Details (Enterprise)*, avec un quota mensuel offert ; à raison d'un
+appel toutes les 24 h, la consommation est négligeable.
+
+Sans clé, le site ne casse pas : il affiche la note de repli des réglages
+(`googleRating`, `googleReviewCount`) et masque les citations.
 
 ## Mise en cache
 
