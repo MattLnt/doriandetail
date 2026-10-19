@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   description:
     "Nettoyage, polissage et protection céramique réalisés à la main dans notre atelier de Braine-l'Alleud. Intervention sur rendez-vous dans tout le Brabant wallon.",
-  metadataBase: new URL("https://dorian-detailing.be"),
+  metadataBase: new URL("https://doriandetailing.be"),
   openGraph: {
     type: "website",
     locale: "fr_BE",
