@@ -13,6 +13,8 @@ export async function getVehicleClasses() {
   return prisma.vehicleClass.findMany({ orderBy: { position: "asc" } });
 }
 
+export type VehicleClass = Awaited<ReturnType<typeof getVehicleClasses>>[number];
+
 const servicePublicInclude = {
   group: true,
   inclusions: { orderBy: { position: "asc" } },

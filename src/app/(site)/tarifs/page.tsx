@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { PriceGrid } from "@/components/site/PriceGrid";
 import { formatPrice } from "@/lib/format";
 import { getPublishedOptions, getPublishedServices, getVehicleClasses } from "@/lib/queries";
 
@@ -38,87 +39,8 @@ export default async function TarifsPage() {
       {/* ── Grille principale ──────────────────────────────────────────────── */}
       <section className="py-12 md:py-14">
         <div className="shell">
-          <div className="card overflow-x-auto">
-            <table className="w-full min-w-[720px] border-collapse text-left">
-              <caption className="sr-only">
-                Tarifs de chaque prestation selon le gabarit du véhicule
-              </caption>
-              <thead>
-                <tr className="border-b border-line bg-surface-2">
-                  <th
-                    scope="col"
-                    className="px-5 py-4 text-[12px] font-semibold uppercase tracking-wider text-ink-dim"
-                  >
-                    Prestation
-                  </th>
-                  {vehicleClasses.map((vc) => (
-                    <th
-                      key={vc.id}
-                      scope="col"
-                      className="px-5 py-4 text-right text-[12px] font-semibold uppercase tracking-wider text-ink-dim"
-                    >
-                      {vc.name}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {services.map((service) => {
-                  const byVehicle = new Map(
-                    service.prices.map((p) => [p.vehicleClassId, p]),
-                  );
-                  return (
-                    <tr key={service.id} className="border-b border-line last:border-0">
-                      <th scope="row" className="px-5 py-4 align-top">
-                        <Link
-                          href={`/prestations/${service.slug}`}
-                          className="text-[14px] font-semibold hover:text-accent-deep"
-                        >
-                          {service.name}
-                        </Link>
-                        {service.group && (
-                          <span className="mt-1 block text-[12px] font-normal text-ink-faint">
-                            {service.group.name}
-                          </span>
-                        )}
-                      </th>
-                      {vehicleClasses.map((vc) => {
-                        const price = byVehicle.get(vc.id);
-                        const amount = price?.promoCents ?? price?.priceCents ?? null;
-                        const hasPromo =
-                          price?.promoCents !== null &&
-                          price?.promoCents !== undefined &&
-                          price?.priceCents !== null;
-                        return (
-                          <td
-                            key={vc.id}
-                            className="whitespace-nowrap px-5 py-4 text-right align-top"
-                          >
-                            {service.quoteOnly || amount === null ? (
-                              <span className="text-[13px] text-ink-faint">Sur devis</span>
-                            ) : hasPromo ? (
-                              <span className="inline-flex flex-col items-end">
-                                <span className="text-[12px] text-ink-faint line-through">
-                                  {formatPrice(price!.priceCents)}
-                                </span>
-                                <span className="disp text-[14.5px] font-bold text-accent-deep">
-                                  {formatPrice(amount)}
-                                </span>
-                              </span>
-                            ) : (
-                              <span className="disp text-[14.5px] font-bold">
-                                {formatPrice(amount)}
-                              </span>
-                            )}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <PriceGrid services={services} vehicleClasses={vehicleClasses} />
+
           <p className="hint">
             Les prix barrés signalent une promotion en cours. « Sur devis » : une
             inspection du véhicule est nécessaire avant chiffrage.

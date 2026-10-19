@@ -171,6 +171,10 @@ model ContactMessage {
   /// Prestation évoquée dans la demande, si renseignée
   serviceId String?
   service   Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  /// Options demandées, enregistrées par leur nom au moment de la demande.
+  /// Un nom plutôt qu'une relation : si l'option est renommée ou supprimée
+  /// plus tard, la demande doit garder ce que le client a réellement coché.
+  optionNames String[] @default([])
   handled   Boolean  @default(false)
   createdAt DateTime @default(now())
 

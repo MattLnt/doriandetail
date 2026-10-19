@@ -67,9 +67,25 @@ export async function submitContact(
   const service = data.serviceSlug
     ? await prisma.service.findUnique({
         where: { slug: data.serviceSlug },
-        select: { id: true, name: true },
+        select: {
+          id: true,
+          name: true,
+          options: {
+            where: { option: { published: true } },
+            select: { option: { select: { id: true, name: true } } },
+          },
+        },
       })
     : null;
+
+  // Les cases cochees ne sont pas fiables : le formulaire est modifiable cote
+  // client. On ne retient que les options reellement rattachees a la
+  // prestation choisie, et on enregistre leur nom, pas l'id recu.
+  const requestedIds = new Set(formData.getAll("options").map(String));
+  const optionNames = (service?.options ?? [])
+    .map((link) => link.option)
+    .filter((option) => requestedIds.has(option.id))
+    .map((option) => option.name);
 
   try {
     await prisma.contactMessage.create({
@@ -80,6 +96,7 @@ export async function submitContact(
         vehicle: data.vehicle || null,
         message: data.message,
         serviceId: service?.id ?? null,
+        optionNames,
       },
     });
   } catch (error) {
@@ -93,7 +110,7 @@ export async function submitContact(
 
   const settings = await getSettings();
   const notification = await sendContactNotification(
-    { ...data, serviceName: service?.name ?? null },
+    { ...data, serviceName: service?.name ?? null, optionNames },
     settings.email,
   );
   if (!notification.sent) {

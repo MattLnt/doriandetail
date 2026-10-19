@@ -100,6 +100,18 @@ export default async function AdminMessagesPage({ searchParams }: PageProps) {
                     <dd className="font-semibold">{message.service.name}</dd>
                   </div>
                 )}
+                {message.optionNames.length > 0 && (
+                  <div>
+                    <dt className="text-ink-faint">Options demandées</dt>
+                    <dd className="flex flex-wrap gap-1.5 pt-1">
+                      {message.optionNames.map((option) => (
+                        <span key={option} className="badge badge-accent">
+                          {option}
+                        </span>
+                      ))}
+                    </dd>
+                  </div>
+                )}
               </dl>
 
               <p className="mt-4 whitespace-pre-wrap rounded-[10px] border border-line bg-surface p-4 text-[13.5px] leading-relaxed text-ink-dim">

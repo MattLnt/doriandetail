@@ -29,6 +29,7 @@ export function Select({
   id,
   required,
   invalid,
+  onValueChange,
 }: {
   name: string;
   options: SelectOption[];
@@ -37,6 +38,8 @@ export function Select({
   id?: string;
   required?: boolean;
   invalid?: boolean;
+  /** Notifie le parent, qui peut reagir sans gerer l'etat du composant. */
+  onValueChange?: (value: string) => void;
 }) {
   const generatedId = useId();
   const buttonId = id ?? `${generatedId}-bouton`;
@@ -79,6 +82,7 @@ export function Select({
     setValue(option.value);
     setCursor(index);
     setOpen(false);
+    onValueChange?.(option.value);
     rootRef.current?.querySelector("button")?.focus();
   };
 

@@ -28,10 +28,24 @@ export default async function ContactPage({ searchParams }: PageProps) {
   const [{ prestation, produit }, settings, services] = await Promise.all([
     searchParams,
     getSettings(),
+    // Les options sont chargees avec les prestations : le formulaire les
+    // filtre cote client a la selection, sans requete supplementaire.
     prisma.service.findMany({
       where: { published: true },
       orderBy: { position: "asc" },
-      select: { slug: true, name: true },
+      select: {
+        slug: true,
+        name: true,
+        options: {
+          // La table de jonction n'a pas d'ordre propre : il vient de l'option.
+          orderBy: { option: { position: "asc" } },
+          select: {
+            option: {
+              select: { id: true, name: true, priceCents: true, published: true },
+            },
+          },
+        },
+      },
     }),
   ]);
 

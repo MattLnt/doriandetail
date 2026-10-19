@@ -1,15 +1,23 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 
 import { CheckIcon } from "@/components/Icons";
 import { submitContact, type ContactState } from "@/app/(site)/contact/actions";
+import { Checkbox } from "@/components/Checkbox";
 import { Select } from "@/components/Select";
+import { formatPrice } from "@/lib/format";
 
 const initialState: ContactState = { status: "idle" };
 
-type ServiceOption = { slug: string; name: string };
+type ServiceOption = {
+  slug: string;
+  name: string;
+  options: {
+    option: { id: string; name: string; priceCents: number; published: boolean };
+  }[];
+};
 
 export function ContactForm({
   services,
@@ -21,6 +29,15 @@ export function ContactForm({
   defaultMessage?: string;
 }) {
   const [state, formAction] = useActionState(submitContact, initialState);
+  const [serviceSlug, setServiceSlug] = useState(defaultServiceSlug ?? "");
+
+  // Les options proposees suivent la prestation choisie. Une option
+  // depubliee entre-temps ne doit plus apparaitre.
+  const available = (
+    services.find((service) => service.slug === serviceSlug)?.options ?? []
+  )
+    .map((link) => link.option)
+    .filter((option) => option.published);
 
   if (state.status === "success") {
     return (
@@ -89,8 +106,35 @@ export function ContactForm({
             value: service.slug,
             label: service.name,
           }))}
+          onValueChange={setServiceSlug}
         />
       </div>
+
+      {/* Options de la prestation. Le bloc n'existe que lorsqu'une prestation
+          en propose : afficher un cadre vide n'apprend rien au visiteur. */}
+      {available.length > 0 && (
+        <fieldset className="rounded-[14px] border border-line bg-surface p-5">
+          <legend className="px-1.5 text-[13px] font-semibold">
+            Options souhaitées
+          </legend>
+          <p className="mb-4 text-[13px] leading-relaxed text-ink-faint">
+            Facultatif. Les suppléments sont ajoutés au devis, rien n&apos;est
+            payé en ligne.
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {available.map((option) => (
+              <Checkbox
+                key={option.id}
+                name="options"
+                value={option.id}
+                label={option.name}
+                hint={`+${formatPrice(option.priceCents)}`}
+                align="start"
+              />
+            ))}
+          </div>
+        </fieldset>
+      )}
 
       <div>
         <label htmlFor="message" className="label">

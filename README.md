@@ -80,7 +80,7 @@ chaque Server Action.
 | **Options** | Gérer les suppléments (shampoing sièges, ozone, céramique 12 mois…) et leur prix |
 | **Produits** | Gérer la boutique vitrine : nom, rayon, description, contenance, prix indicatif, visuel |
 | **Rayons boutique** | Les filtres de la page Boutique |
-| **Demandes** | Les messages reçus via le formulaire de contact, à marquer comme traités |
+| **Demandes** | Les messages reçus via le formulaire de contact, avec la prestation et les options demandées, à marquer comme traités |
 | **Réglages du site** | Coordonnées, horaires, réseaux sociaux, textes de la page d'accueil, mot de passe admin |
 
 ### Images produits
@@ -110,6 +110,18 @@ production, il faudrait brancher un stockage externe type Vercel Blob.
    npm run db:seed
    ```
 4. Se connecter sur `/admin` et changer le mot de passe dans **Réglages du site**.
+
+## Le formulaire de contact
+
+Le visiteur choisit une prestation, puis coche les options qu'il souhaite. Les
+options proposées suivent la prestation sélectionnée, sans requête
+supplémentaire : elles sont chargées avec la liste et filtrées côté client.
+
+Les cases cochées ne sont **pas** reprises telles quelles : le formulaire est
+modifiable côté client, donc la Server Action ne retient que les options
+réellement rattachées à la prestation choisie et encore publiées. Elle
+enregistre leur **nom**, pas l'identifiant reçu — ainsi une demande garde ce
+que le client a coché même si l'option est renommée ou supprimée ensuite.
 
 ## Les avis Google
 

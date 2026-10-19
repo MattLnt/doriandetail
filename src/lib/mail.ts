@@ -9,6 +9,7 @@ type ContactPayload = {
   vehicle?: string | null;
   message: string;
   serviceName?: string | null;
+  optionNames?: string[];
 };
 
 const escapeHtml = (value: string) =>
@@ -41,6 +42,10 @@ export async function sendContactNotification(
     ["Téléphone", payload.phone || "—"],
     ["Véhicule", payload.vehicle || "—"],
     ["Prestation", payload.serviceName || "—"],
+    [
+      "Options",
+      payload.optionNames?.length ? payload.optionNames.join(", ") : "—",
+    ],
   ];
 
   const html = `
