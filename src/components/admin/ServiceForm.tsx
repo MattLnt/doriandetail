@@ -14,6 +14,7 @@ import {
 } from "@/components/admin/ui";
 import { SERVICE_ICON_LABELS } from "@/components/Icons";
 import { idleState, type ActionState } from "@/lib/action-state";
+import { Checkbox } from "@/components/Checkbox";
 
 type VehicleClass = { id: string; name: string };
 type OptionRow = { id: string; name: string; priceLabel: string };
@@ -203,23 +204,15 @@ export function ServiceForm({
         ) : (
           <div className="grid gap-3 sm:grid-cols-2">
             {options.map((option) => (
-              <label key={option.id} className="flex cursor-pointer items-start gap-3">
-                <input
-                  type="checkbox"
-                  name="options"
-                  value={option.id}
-                  defaultChecked={values.selectedOptionIds.includes(option.id)}
-                  className="mt-0.5 h-4 w-4 flex-shrink-0 accent-[#A6543D]"
-                />
-                <span>
-                  <span className="block text-[13.5px] font-medium leading-snug">
-                    {option.name}
-                  </span>
-                  <span className="block text-[12.5px] text-ink-faint">
-                    +{option.priceLabel}
-                  </span>
-                </span>
-              </label>
+              <Checkbox
+                key={option.id}
+                name="options"
+                value={option.id}
+                label={option.name}
+                hint={`+${option.priceLabel}`}
+                defaultChecked={values.selectedOptionIds.includes(option.id)}
+                align="start"
+              />
             ))}
           </div>
         )}

@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useFormStatus } from "react-dom";
 
+import { Checkbox } from "@/components/Checkbox";
+import { Select, type SelectOption } from "@/components/Select";
+
 /** En-tête de page du dashboard, avec action principale optionnelle. */
 export function PageHeader({
   title,
@@ -115,6 +118,8 @@ export function Feedback({
   );
 }
 
+/** Case a cocher isolee du dashboard. Enveloppe Checkbox pour garder les
+    appels existants (`<Toggle name label hint defaultChecked />`). */
 export function Toggle({
   name,
   label,
@@ -127,18 +132,13 @@ export function Toggle({
   defaultChecked?: boolean;
 }) {
   return (
-    <label className="flex cursor-pointer items-start gap-3">
-      <input
-        type="checkbox"
-        name={name}
-        defaultChecked={defaultChecked}
-        className="mt-0.5 h-4 w-4 flex-shrink-0 accent-[#A6543D]"
-      />
-      <span>
-        <span className="block text-[14px] font-medium">{label}</span>
-        {hint && <span className="block text-[12.5px] text-ink-faint">{hint}</span>}
-      </span>
-    </label>
+    <Checkbox
+      name={name}
+      label={label}
+      hint={hint}
+      defaultChecked={defaultChecked}
+      align="start"
+    />
   );
 }
 
@@ -229,24 +229,24 @@ export function SelectField({
 }: {
   name: string;
   label: string;
-  options: { value: string; label: string }[];
+  options: SelectOption[];
   defaultValue?: string | null;
   hint?: string;
   placeholder?: string;
 }) {
   return (
     <div>
-      <label htmlFor={name} className="label">
+      {/* htmlFor vise le bouton du composant, qui porte ce meme id. */}
+      <label htmlFor={`${name}-bouton`} className="label">
         {label}
       </label>
-      <select id={name} name={name} className="field" defaultValue={defaultValue ?? ""}>
-        {placeholder && <option value="">{placeholder}</option>}
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <Select
+        id={`${name}-bouton`}
+        name={name}
+        options={options}
+        defaultValue={defaultValue}
+        placeholder={placeholder}
+      />
       {hint && <p className="hint">{hint}</p>}
     </div>
   );

@@ -152,7 +152,7 @@ function FilterLink({
       href={href}
       className={`rounded-full border px-4 py-2 text-[13px] font-medium transition-colors ${
         active
-          ? "border-ink bg-ink text-white"
+          ? "admin-gradient-active border-accent/40 text-ink"
           : "border-line bg-bg text-ink-dim hover:border-accent/50"
       }`}
     >

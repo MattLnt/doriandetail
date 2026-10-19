@@ -4,6 +4,7 @@ import { centsToInput } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
 
 import { deleteOption, updateOption } from "./actions";
+import { Checkbox } from "@/components/Checkbox";
 
 export const dynamic = "force-dynamic";
 
@@ -85,15 +86,11 @@ export default async function AdminOptionsPage() {
 
               <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-4">
                 <div className="flex flex-wrap items-center gap-5">
-                  <label className="flex cursor-pointer items-center gap-2.5">
-                    <input
-                      type="checkbox"
-                      name="published"
-                      defaultChecked={option.published}
-                      className="h-4 w-4 accent-[#A6543D]"
-                    />
-                    <span className="text-[13.5px] font-medium">Visible sur le site</span>
-                  </label>
+                  <Checkbox
+                    name="published"
+                    label="Visible sur le site"
+                    defaultChecked={option.published}
+                  />
                   <span className="text-[12.5px] text-ink-faint">
                     {option._count.services === 0
                       ? "Rattachée à aucune prestation"

@@ -423,6 +423,31 @@
     );
   }
 
+  /* Menu du composant Select. Opaque : un fond translucide laisserait lire
+     le contenu de la page a travers les options. */
+  .select-menu {
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.55);
+  }
+
+  /* ── Liseret degrade autour du dashboard ──────────────────────────────
+     Un cadre peint en degrade ne se fait pas avec border-image, qui ne
+     suit pas border-radius. On peint donc le degrade en fond et on creuse
+     l'interieur : padding de 1px + un enfant opaque par-dessus. */
+  .admin-frame {
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(204, 146, 134, 0.75) 0%,
+      rgba(204, 146, 134, 0.16) 26%,
+      rgba(255, 255, 255, 0.07) 50%,
+      rgba(204, 146, 134, 0.22) 74%,
+      rgba(204, 146, 134, 0.6) 100%
+    );
+  }
+
   /* Cartes mises en avant (chiffres de la vue d'ensemble). */
   .admin-gradient-card {
     background:

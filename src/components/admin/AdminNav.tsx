@@ -61,7 +61,7 @@ export function AdminNav({
       <aside
         className={`${
           open ? "block" : "hidden"
-        } admin-gradient-aside border-b border-line lg:sticky lg:top-0 lg:block lg:h-screen lg:w-[244px] lg:flex-shrink-0 lg:border-b-0 lg:border-r`}
+        } admin-gradient-aside border-b border-line lg:block lg:h-full lg:w-[244px] lg:flex-shrink-0 lg:overflow-y-auto lg:border-b-0 lg:border-r`}
       >
         <div className="flex h-full flex-col p-5">
           <Link href="/admin" className="mb-7 hidden lg:block">

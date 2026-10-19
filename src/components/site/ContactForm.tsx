@@ -5,6 +5,7 @@ import { useFormStatus } from "react-dom";
 
 import { CheckIcon } from "@/components/Icons";
 import { submitContact, type ContactState } from "@/app/(site)/contact/actions";
+import { Select } from "@/components/Select";
 
 const initialState: ContactState = { status: "idle" };
 
@@ -76,22 +77,19 @@ export function ContactForm({
       </div>
 
       <div>
-        <label htmlFor="serviceSlug" className="label">
+        <label htmlFor="serviceSlug-bouton" className="label">
           Prestation souhaitée
         </label>
-        <select
-          id="serviceSlug"
+        <Select
+          id="serviceSlug-bouton"
           name="serviceSlug"
-          className="field"
           defaultValue={defaultServiceSlug ?? ""}
-        >
-          <option value="">Je ne sais pas encore / autre demande</option>
-          {services.map((service) => (
-            <option key={service.slug} value={service.slug}>
-              {service.name}
-            </option>
-          ))}
-        </select>
+          placeholder="Je ne sais pas encore / autre demande"
+          options={services.map((service) => ({
+            value: service.slug,
+            label: service.name,
+          }))}
+        />
       </div>
 
       <div>
