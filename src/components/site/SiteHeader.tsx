@@ -50,7 +50,7 @@ export function SiteHeader() {
         <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
           {/* Le logo fourni inclut le mot-clé sous le monogramme : on recadre
               sur le monogramme, le nom étant déjà écrit à côté. */}
-          <span className="flex h-[38px] w-[38px] items-center justify-center overflow-hidden rounded-[10px] border border-accent/40 bg-accent-soft">
+          <span className="flex h-[38px] w-[38px] items-center justify-center overflow-hidden">
             <Image
               src="/logo.png"
               alt=""

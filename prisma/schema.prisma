@@ -201,7 +201,7 @@ model SiteSettings {
   googleReviewCount Int    @default(140)
   heroTitle   String  @default("Votre carrosserie mérite mieux qu'un simple lavage.")
   heroText    String  @default("Nettoyage, polissage et protection céramique réalisés à la main, dans notre atelier de Braine-l'Alleud. Un rendu sortie-de-concession, à chaque passage.")
-  statVehicles String @default("500+")
+  statVehicles String @default("1 000+")
   statRating   String @default("4.9 / 5")
   boutiqueNote String @default("Ces produits ne sont pas en vente en ligne : contactez-nous par téléphone ou email, ou passez directement à l'atelier.")
 

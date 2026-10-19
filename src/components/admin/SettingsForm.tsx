@@ -28,7 +28,6 @@ export type SettingsValues = {
   heroTitle: string;
   heroText: string;
   statVehicles: string;
-  statRating: string;
   boutiqueNote: string;
 };
 
@@ -151,20 +150,14 @@ export function SettingsForm({ values }: { values: SettingsValues }) {
             defaultValue={values.heroText}
             rows={3}
           />
-          <div className="grid gap-4 md:grid-cols-2">
-            <TextField
-              name="statVehicles"
-              label="Chiffre « véhicules traités »"
-              defaultValue={values.statVehicles}
-              placeholder="500+"
-            />
-            <TextField
-              name="statRating"
-              label="Chiffre « avis clients »"
-              defaultValue={values.statRating}
-              placeholder="4.9 / 5"
-            />
-          </div>
+          {/* La note n'est plus saisie : le bandeau du hero affiche cinq
+              etoiles et le nombre d'avis vient de la fiche Google. */}
+          <TextField
+            name="statVehicles"
+            label="Chiffre « véhicules traités »"
+            defaultValue={values.statVehicles}
+            placeholder="1 000+"
+          />
         </div>
       </Panel>
 

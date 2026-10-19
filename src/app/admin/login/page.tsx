@@ -42,7 +42,7 @@ export default async function LoginPage({ searchParams }: PageProps) {
       <div className="relative z-10 w-full max-w-[400px]">
         <div className="mb-7 flex flex-col items-center text-center">
           <Link href="/" className="inline-flex items-center gap-3">
-            <span className="flex size-[42px] items-center justify-center overflow-hidden rounded-[11px] border border-accent/40 bg-accent-soft">
+            <span className="flex size-[42px] items-center justify-center overflow-hidden">
               <Image
                 src="/logo.png"
                 alt=""

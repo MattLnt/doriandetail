@@ -3,10 +3,12 @@ import Link from "next/link";
 
 import {
   ArrowRightIcon,
+  CheckIcon,
   GoogleIcon,
   PhoneIcon,
   StarFilledIcon,
 } from "@/components/Icons";
+import { CoverageMap } from "@/components/site/CoverageMap";
 import { ServiceCard } from "@/components/site/ServiceCard";
 import { formatPrice } from "@/lib/format";
 import { formatRating, getGoogleReviews } from "@/lib/google-reviews";
@@ -102,9 +104,19 @@ export default async function HomePage() {
               <dt className="text-[12.5px] text-on-dark-faint">véhicules traités</dt>
               <dd className="disp text-[22px] font-bold">{settings.statVehicles}</dd>
             </div>
-            <div className="flex flex-row-reverse items-baseline gap-2.5">
-              <dt className="text-[12.5px] text-on-dark-faint">avis clients</dt>
-              <dd className="disp text-[22px] font-bold">{settings.statRating}</dd>
+            {/* La note s'affiche en etoiles plutot qu'en « 5,0 / 5 », et le
+                nombre vient de la fiche Google : il n'y a rien a tenir a jour.
+                items-center et non items-baseline, les etoiles n'ayant pas de
+                ligne de base. */}
+            <div className="flex flex-row-reverse items-center gap-2.5">
+              <dt className="text-[12.5px] text-on-dark-faint">
+                {reviewCount} avis Google
+              </dt>
+              <dd className="flex gap-0.5 text-accent" aria-label={`${rating} sur 5`}>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <StarFilledIcon key={index} size={15} />
+                ))}
+              </dd>
             </div>
             <div className="flex flex-row-reverse items-baseline gap-2.5">
               <dt className="text-[12.5px] text-on-dark-faint">travail à la main</dt>
@@ -298,6 +310,54 @@ export default async function HomePage() {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* ── Nous venons à vous ─────────────────────────────────────────────── */}
+      <section id="domicile" className="bg-dark py-16 text-on-dark md:py-20">
+        <div className="shell grid items-center gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-14">
+          <div>
+            <p className="eyebrow eyebrow-light">Nettoyage à domicile</p>
+            <h2 className="disp mb-4 mt-3.5 text-[clamp(26px,3vw,36px)] font-bold leading-[1.1]">
+              C&apos;est nous qui nous déplaçons.
+            </h2>
+            <p className="mb-7 max-w-[460px] text-[15px] leading-relaxed text-on-dark-dim">
+              Notre camionnette est équipée en autonomie complète — eau et
+              électricité comprises. Nous intervenons devant chez vous ou sur
+              votre lieu de travail, dans tout le Brabant wallon. Vous
+              n&apos;avez rien à déplacer, pas de créneau à bloquer chez un
+              garagiste : votre véhicule reste où il est.
+            </p>
+
+            <ul className="mb-8 flex flex-col gap-3">
+              {[
+                "Intervention devant chez vous ou au bureau",
+                "Camionnette autonome en eau et en électricité",
+                "Aucun déplacement de votre côté",
+                "Possibilité de venir à l'atelier si vous préférez",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 text-[14.5px]">
+                  <span className="mt-0.5 flex size-[19px] flex-shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
+                    <CheckIcon size={12} strokeWidth={3} />
+                  </span>
+                  <span className="text-on-dark-dim">{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <Link href="/contact" className="btn btn-accent px-7 py-4 text-[15px]">
+              Demander un déplacement
+              <ArrowRightIcon size={15} />
+            </Link>
+          </div>
+
+          <div className="overflow-hidden rounded-[22px] border border-dark-line bg-dark-2 p-3 sm:p-5">
+            <CoverageMap />
+            <p className="px-2 pb-1 pt-2 text-center text-[12.5px] text-on-dark-faint">
+              Au-delà du Brabant wallon, contactez-nous : un déplacement reste
+              souvent possible.
+            </p>
+          </div>
         </div>
       </section>
 

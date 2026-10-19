@@ -35,7 +35,6 @@ export default async function AdminSettingsPage() {
             heroTitle: settings.heroTitle,
             heroText: settings.heroText,
             statVehicles: settings.statVehicles,
-            statRating: settings.statRating,
             boutiqueNote: settings.boutiqueNote,
           }}
         />

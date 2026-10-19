@@ -37,7 +37,6 @@ const schema = z.object({
   heroTitle: z.string().trim().min(5, "Le titre est trop court.").max(200),
   heroText: z.string().trim().min(10).max(800),
   statVehicles: z.string().trim().max(20),
-  statRating: z.string().trim().max(20),
   boutiqueNote: z.string().trim().max(600),
 });
 
@@ -63,7 +62,6 @@ export async function updateSettings(
     heroTitle: formData.get("heroTitle") ?? "",
     heroText: formData.get("heroText") ?? "",
     statVehicles: formData.get("statVehicles") ?? "",
-    statRating: formData.get("statRating") ?? "",
     boutiqueNote: formData.get("boutiqueNote") ?? "",
   });
 

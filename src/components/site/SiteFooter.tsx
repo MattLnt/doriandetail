@@ -10,7 +10,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
     <footer className="w-full bg-dark py-9 text-on-dark">
       <div className="shell flex flex-wrap items-center justify-between gap-5">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-[30px] w-[30px] items-center justify-center overflow-hidden rounded-lg bg-accent-soft">
+          <span className="flex h-[30px] w-[30px] items-center justify-center overflow-hidden">
             <Image
               src="/logo.png"
               alt=""

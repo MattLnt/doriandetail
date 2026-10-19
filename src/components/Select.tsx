@@ -186,7 +186,13 @@ export function Select({
           role="listbox"
           aria-labelledby={buttonId}
           tabIndex={-1}
-          className="select-menu absolute z-30 mt-1.5 max-h-[260px] w-full overflow-auto p-1.5"
+          // onMouseDown et non onPointerDown : empecher le defaut de
+          // pointerdown annule aussi le defilement tactile, ce qui rendait la
+          // liste impossible a faire defiler au doigt. mousedown n'est pas
+          // emis pendant un defilement tactile, le focus est donc preserve
+          // sans bloquer le geste.
+          onMouseDown={(event) => event.preventDefault()}
+          className="select-menu absolute z-30 mt-1.5 max-h-[260px] w-full overflow-y-auto overscroll-contain p-1.5 [touch-action:pan-y]"
         >
           {options.map((option, index) => {
             const isSelected = option.value === value;
@@ -196,13 +202,12 @@ export function Select({
                 id={`${listId}-${index}`}
                 role="option"
                 aria-selected={isSelected}
-                // onPointerDown plutot que onClick : le bouton perdrait le
-                // focus avant que le clic n'aboutisse.
-                onPointerDown={(event) => {
-                  event.preventDefault();
-                  choose(index);
+                onClick={() => choose(index)}
+                // pointer et non mouse : couvre aussi le stylet. Un survol au
+                // doigt n'existe pas, donc sans effet sur tactile.
+                onPointerEnter={(event) => {
+                  if (event.pointerType !== "touch") setCursor(index);
                 }}
-                onPointerEnter={() => setCursor(index)}
                 className={`flex cursor-pointer items-center justify-between gap-3 rounded-[8px] px-3 py-2 text-[14px] transition-colors ${
                   index === cursor ? "bg-accent-soft text-ink" : "text-ink-dim"
                 } ${isSelected ? "font-semibold" : ""}`}
