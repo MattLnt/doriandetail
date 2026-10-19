@@ -300,6 +300,7 @@
     letter-spacing: 0.04em;
     padding: 4px 10px;
     border-radius: 999px;
+    white-space: nowrap;
     border: 1px solid var(--color-line);
     color: var(--color-ink-dim);
     background: var(--color-bg);
@@ -376,6 +377,13 @@
     color: #e8907f;
   }
 
+  /* #2d7a4e tombe a 1,9:1 sur #121212. Celui-ci donne 7,4:1. */
+  .admin-dark .badge-on {
+    background: rgba(92, 190, 133, 0.13);
+    border-color: rgba(92, 190, 133, 0.34);
+    color: #7fd4a3;
+  }
+
   .admin-dark .field {
     background: rgba(255, 255, 255, 0.05);
   }
@@ -410,8 +418,8 @@
   .admin-gradient-active {
     background: linear-gradient(
       100deg,
-      rgba(204, 146, 134, 0.26) 0%,
-      rgba(204, 146, 134, 0.09) 100%
+      rgba(204, 146, 134, 0.42) 0%,
+      rgba(204, 146, 134, 0.14) 100%
     );
   }
 
