@@ -58,15 +58,24 @@ export function ShopGrid({
       <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {visible.map((product) => (
           <article key={product.id} className="card flex flex-col overflow-hidden">
-            <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-dark-2 to-dark">
+            {/* Les packshots fournisseurs sont detoures sur blanc ou transparents :
+                fond blanc pour eux, degrade gris clair pour le placeholder. Un
+                placeholder sombre ferait une tuile noire au milieu de cartes claires. */}
+            <div
+              className={`relative aspect-[4/3] overflow-hidden ${
+                product.imageUrl ? "bg-white" : "bg-gradient-to-br from-surface to-surface-2"
+              }`}
+            >
               {product.imageUrl ? (
                 // Image non optimisée : les visuels produits sont servis depuis /public
                 // ou une URL externe fournie dans le dashboard.
+                // object-contain et non cover : ce sont des flacons verticaux, un
+                // recadrage en 4/3 leur couperait le bouchon et le bas de l'etiquette.
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={product.imageUrl}
                   alt={product.name}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain p-4"
                   loading="lazy"
                 />
               ) : (

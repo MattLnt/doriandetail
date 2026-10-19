@@ -143,6 +143,9 @@ async function main() {
       featured: product.featured,
       position: index,
       categoryId: categoryIds.get(product.category) ?? null,
+      // imageUrl seulement si le seed en fournit une : un reseed ne doit pas
+      // effacer un visuel renseigne depuis le dashboard.
+      ...(product.imageUrl ? { imageUrl: product.imageUrl } : {}),
     };
     await prisma.product.upsert({
       where: { slug: product.slug },

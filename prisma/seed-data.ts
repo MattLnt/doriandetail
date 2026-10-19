@@ -548,8 +548,9 @@ export const PRODUCTS = [
     name: "Shampoing lavage premium",
     category: "pre-lavage-lavage",
     description: "Formule pH neutre haute lubrification.",
-    format: "500 ml",
+    format: "1 L",
     price: 17.9,
+    imageUrl: "/produits/shampoing-lavage-premium.png",
     featured: true,
   },
   {
@@ -559,6 +560,7 @@ export const PRODUCTS = [
     description: "Dissout la poussière de frein sans attaquer les revêtements.",
     format: "1 L",
     price: 15.5,
+    imageUrl: "/produits/nettoyant-jantes-acid-free.png",
     featured: false,
   },
   {
@@ -568,6 +570,7 @@ export const PRODUCTS = [
     description: "Kit décontamination carrosserie avant polish.",
     format: "Barre 100 g",
     price: 24.9,
+    imageUrl: "/produits/clay-bar-lubrifiant.png",
     featured: false,
   },
   {
@@ -577,6 +580,7 @@ export const PRODUCTS = [
     description: "Abrasif fin, correction légère à la machine ou à la main.",
     format: "250 ml",
     price: 29.9,
+    imageUrl: null,
     featured: false,
   },
   {
@@ -584,8 +588,9 @@ export const PRODUCTS = [
     name: "Cire synthétique longue durée",
     category: "protection-cire",
     description: "Brillance et effet hydrophobe jusqu'à 6 mois.",
-    format: "Pot 200 ml",
+    format: "Spray 750 ml",
     price: 34.9,
+    imageUrl: "/produits/cire-synthetique-longue-duree.png",
     featured: true,
   },
   {
@@ -593,8 +598,9 @@ export const PRODUCTS = [
     name: "Nettoyant multi-usage",
     category: "interieur",
     description: "Plastiques, tissus et surfaces intérieures.",
-    format: "500 ml",
+    format: "1 L",
     price: 14.9,
+    imageUrl: "/produits/nettoyant-multi-usage.png",
     featured: false,
   },
   {
@@ -602,8 +608,9 @@ export const PRODUCTS = [
     name: "Nettoyant vitres anti-traces",
     category: "vitres-phares",
     description: "Formule sans ammoniaque, sans trace.",
-    format: "500 ml",
+    format: "Spray 1 L",
     price: 12.5,
+    imageUrl: "/produits/nettoyant-vitres-anti-traces.png",
     featured: false,
   },
   {
@@ -613,6 +620,7 @@ export const PRODUCTS = [
     description: "Lot de 4 microfibres, usages séchage / polish / vitres / intérieur.",
     format: "Lot de 4",
     price: 19.9,
+    imageUrl: "/produits/kit-microfibres-premium.png",
     featured: false,
   },
 ] as const;
