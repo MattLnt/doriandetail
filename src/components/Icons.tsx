@@ -221,3 +221,18 @@ export function ServiceIcon({
   const Component = SERVICE_ICONS[name as ServiceIconName] ?? SparkleIcon;
   return <Component size={size} className={className} />;
 }
+
+export const EyeIcon = (p: IconProps) => (
+  <svg {...base({ ...p, strokeWidth: p.strokeWidth ?? 1.9 })}>
+    <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+export const EyeOffIcon = (p: IconProps) => (
+  <svg {...base({ ...p, strokeWidth: p.strokeWidth ?? 1.9 })}>
+    <path d="M10.6 6.7A8.9 8.9 0 0 1 12 5.5c6.4 0 10 6.5 10 6.5a18 18 0 0 1-3.2 4.1M6.3 8.1A17.8 17.8 0 0 0 2 12s3.6 6.5 10 6.5a9.6 9.6 0 0 0 3.6-.7" />
+    <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" />
+    <path d="M3 3l18 18" />
+  </svg>
+);

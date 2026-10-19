@@ -250,6 +250,29 @@
     box-shadow: 0 0 0 3px var(--color-accent-soft);
   }
 
+  /* Champs poses sur une photo sombre (page de connexion). Le fond reste
+     opaque : un simple voile translucide laisserait la carrosserie de la
+     photo transparaitre derriere le texte saisi. */
+  .label-dark {
+    color: var(--color-on-dark-dim);
+  }
+
+  .field-dark {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--color-dark-line);
+    color: var(--color-on-dark);
+  }
+
+  .field-dark::placeholder {
+    color: var(--color-on-dark-faint);
+  }
+
+  .field-dark:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(204, 146, 134, 0.22);
+  }
+
   textarea.field {
     resize: vertical;
     min-height: 110px;
