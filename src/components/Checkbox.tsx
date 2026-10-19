@@ -30,8 +30,12 @@ export function Checkbox({
         align === "start" ? "items-start" : "items-center"
       }`}
     >
+      {/* inline-flex et taille explicite : en inline, la boite du <span> est
+          decalee par le line-height et la coche se centre de travers. */}
       <span
-        className={`relative flex-shrink-0 ${align === "start" ? "mt-0.5" : ""}`}
+        className={`relative inline-flex size-[19px] flex-shrink-0 ${
+          align === "start" ? "mt-0.5" : ""
+        }`}
       >
         <input
           type="checkbox"
@@ -43,7 +47,7 @@ export function Checkbox({
         <CheckIcon
           size={13}
           strokeWidth={3}
-          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-50 text-accent-ink opacity-0 transition-all duration-150 peer-checked:scale-100 peer-checked:opacity-100"
+          className="pointer-events-none absolute inset-0 m-auto scale-50 text-accent-ink opacity-0 transition-all duration-150 peer-checked:scale-100 peer-checked:opacity-100"
         />
       </span>
       <span>

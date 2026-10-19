@@ -432,6 +432,60 @@
     box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.55);
   }
 
+  /* ── Barres de defilement ─────────────────────────────────────────────
+     Deux syntaxes, volontairement : scrollbar-color est la propriete
+     standard (Firefox, Chrome 121+), ::-webkit-scrollbar couvre les
+     Chromium plus anciens et Safari. Les deux cohabitent sans conflit, la
+     standard l'emporte quand elle est reconnue.
+
+     La portee s'arrete au dashboard et aux menus deroulants : le site
+     public garde les barres du systeme. */
+  .admin-dark,
+  .admin-dark *,
+  .select-menu {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(204, 146, 134, 0.42) transparent;
+  }
+
+  .admin-dark ::-webkit-scrollbar,
+  .select-menu::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+
+  .admin-dark ::-webkit-scrollbar-track,
+  .select-menu::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* La bordure transparente + background-clip creusent une gouttiere :
+     sans elle le pouce colle aux bords et parait deux fois trop epais. */
+  .admin-dark ::-webkit-scrollbar-thumb,
+  .select-menu::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      rgba(204, 146, 134, 0.62) 0%,
+      rgba(204, 146, 134, 0.3) 100%
+    );
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 999px;
+  }
+
+  .admin-dark ::-webkit-scrollbar-thumb:hover,
+  .select-menu::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      rgba(204, 146, 134, 0.85) 0%,
+      rgba(204, 146, 134, 0.5) 100%
+    );
+    background-clip: padding-box;
+  }
+
+  .admin-dark ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
   /* ── Liseret degrade autour du dashboard ──────────────────────────────
      Un cadre peint en degrade ne se fait pas avec border-image, qui ne
      suit pas border-radius. On peint donc le degrade en fond et on creuse
