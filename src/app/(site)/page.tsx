@@ -46,8 +46,8 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── Hero — photo plein ecran, texte ancre en bas ──────────────────── */}
-      <section className="relative -mt-[var(--header-h)] flex min-h-[92vh] flex-col justify-end overflow-hidden bg-dark text-on-dark">
+      {/* ── Hero — photo plein ecran, texte centre ───────────────────────── */}
+      <section className="relative -mt-[var(--header-h)] flex min-h-svh flex-col overflow-hidden bg-dark text-on-dark">
         <Image
           src="/hero-atelier.jpg"
           alt="Dorian lavant une Ferrari FF à la mousse active devant l'atelier de Braine-l'Alleud"
@@ -85,37 +85,43 @@ export default async function HomePage() {
           }}
         />
 
-        <div className="shell relative z-10 pt-[calc(var(--header-h)+5rem)]">
-          {/* L'activite est 100 % mobile : c'est le point qui distingue l'atelier
-              d'un car-wash, et il n'apparaissait qu'en bas de page. Pastille
-              pleine plutot que texte en filet, pour qu'elle se voie sur la
-              photo ; elle renvoie a la section qui detaille le deplacement. */}
-          <Link
-            href="#domicile"
-            className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-accent/45 bg-accent/20 px-4 py-2 text-[13px] font-semibold text-on-dark transition-colors hover:bg-accent/30"
-          >
-            <span aria-hidden className="size-1.5 rounded-full bg-accent" />
-            100&nbsp;% mobile — nous venons à vous
-            <ArrowRightIcon size={13} />
-          </Link>
-          <p className="eyebrow eyebrow-light">Centre de detailing — Braine-l&apos;Alleud</p>
-          <h1 className="mb-5 mt-4 max-w-[760px] text-[clamp(32px,5vw,62px)] font-bold leading-[1.03]">
-            {settings.heroTitle}
-          </h1>
-          <p className="mb-8 max-w-[480px] text-[16px] leading-relaxed text-on-dark">
-            {settings.heroText}
-          </p>
-          <div className="flex flex-wrap gap-3.5">
-            <Link href="/contact" className="btn btn-accent px-7 py-4 text-[15px]">
-              Demander un rendez-vous
+        {/* Le bloc occupe la hauteur restante et s'y centre : colle en bas,
+            il laissait un vide au-dessus sur grand ecran. Le padding haut
+            reserve la place de l'en-tete transparente, sinon le centrage se
+            ferait en partie sous elle. */}
+        <div className="relative z-10 flex flex-1 items-center pt-[var(--header-h)]">
+          <div className="shell w-full py-8 md:py-12">
+            {/* L'activite est 100 % mobile : c'est le point qui distingue l'atelier
+                d'un car-wash, et il n'apparaissait qu'en bas de page. Pastille
+                pleine plutot que texte en filet, pour qu'elle se voie sur la
+                photo ; elle renvoie a la section qui detaille le deplacement. */}
+            <Link
+              href="#domicile"
+              className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-accent/45 bg-accent/20 px-4 py-2 text-[13px] font-semibold text-on-dark transition-colors hover:bg-accent/30"
+            >
+              <span aria-hidden className="size-1.5 rounded-full bg-accent" />
+              100&nbsp;% mobile — nous venons à vous
+              <ArrowRightIcon size={13} />
             </Link>
-            <Link href="/tarifs" className="btn btn-ghost-dark px-7 py-4 text-[15px]">
-              Voir les formules
-            </Link>
+            <p className="eyebrow eyebrow-light">Centre de detailing — Braine-l&apos;Alleud</p>
+            <h1 className="mb-5 mt-4 max-w-[760px] text-[clamp(32px,5vw,62px)] font-bold leading-[1.03]">
+              {settings.heroTitle}
+            </h1>
+            <p className="mb-8 max-w-[480px] text-[16px] leading-relaxed text-on-dark">
+              {settings.heroText}
+            </p>
+            <div className="flex flex-wrap gap-3.5">
+              <Link href="/contact" className="btn btn-accent px-7 py-4 text-[15px]">
+                Demander un rendez-vous
+              </Link>
+              <Link href="/tarifs" className="btn btn-ghost-dark px-7 py-4 text-[15px]">
+                Voir les formules
+              </Link>
+            </div>
           </div>
         </div>
 
-        <div className="relative z-10 mt-12 border-t border-dark-line">
+        <div className="relative z-10 border-t border-dark-line">
           {/* Le libelle visible EST le <dt> : un <dt> masque en plus le faisait
               annoncer deux fois, et un <p> est invalide a cet endroit dans un
               <dl>. flex-row-reverse affiche la valeur avant son libelle sans
