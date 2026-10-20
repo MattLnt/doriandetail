@@ -16,6 +16,15 @@ import { getPublishedServices, getSettings, startingPrice } from "@/lib/queries"
 
 export const revalidate = 300;
 
+/// Les deux portraits sont detoures sur du noir PUR (#000, verifie pixel par
+/// pixel). C'est ce qui dicte la section : posee sur un fond noir identique,
+/// l'image n'a plus de bord visible et la silhouette flotte. Sur un fond clair
+/// elle apparaitrait comme un rectangle noir.
+const TEAM = [
+  { name: "Dorian", photo: "/equipe/dorian.jpg", width: 1024, height: 1536 },
+  { name: "Madysone", photo: "/equipe/madysone.jpeg", width: 1122, height: 1402 },
+] as const;
+
 export default async function HomePage() {
   const [settings, services, google] = await Promise.all([
     getSettings(),
@@ -77,6 +86,18 @@ export default async function HomePage() {
         />
 
         <div className="shell relative z-10 pt-[calc(var(--header-h)+5rem)]">
+          {/* L'activite est 100 % mobile : c'est le point qui distingue l'atelier
+              d'un car-wash, et il n'apparaissait qu'en bas de page. Pastille
+              pleine plutot que texte en filet, pour qu'elle se voie sur la
+              photo ; elle renvoie a la section qui detaille le deplacement. */}
+          <Link
+            href="#domicile"
+            className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-accent/45 bg-accent/20 px-4 py-2 text-[13px] font-semibold text-on-dark transition-colors hover:bg-accent/30"
+          >
+            <span aria-hidden className="size-1.5 rounded-full bg-accent" />
+            100&nbsp;% mobile — nous venons à vous
+            <ArrowRightIcon size={13} />
+          </Link>
           <p className="eyebrow eyebrow-light">Centre de detailing — Braine-l&apos;Alleud</p>
           <h1 className="mb-5 mt-4 max-w-[760px] text-[clamp(32px,5vw,62px)] font-bold leading-[1.03]">
             {settings.heroTitle}
@@ -163,26 +184,18 @@ export default async function HomePage() {
             </h2>
             <p className="text-[14.5px] leading-relaxed text-on-dark-dim">
               Le tarif dépend du gabarit du véhicule et de son état général. Un devis
-              précis est toujours confirmé avant intervention.
+              précis est toujours confirmé avant intervention.{" "}
+              <strong className="font-semibold text-on-dark">
+                Tous les prix affichés sont TTC.
+              </strong>
             </p>
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
-            {pricingTeaser.map((service, index) => {
+            {pricingTeaser.map((service) => {
               const from = startingPrice(service);
-              const isCenter = index === 1;
               return (
-                <div
-                  key={service.id}
-                  className={`card-dark relative flex flex-col p-8 ${
-                    isCenter ? "border-accent" : ""
-                  }`}
-                >
-                  {isCenter && (
-                    <span className="absolute -top-3 left-8 rounded-full bg-accent px-3 py-1 text-[11px] font-bold tracking-wide text-accent-ink">
-                      {service.badge?.toUpperCase() ?? "LA PLUS CHOISIE"}
-                    </span>
-                  )}
+                <div key={service.id} className="card-dark flex flex-col p-8">
                   <p className="mb-2.5 text-[13px] font-semibold uppercase tracking-wider text-on-dark-dim">
                     {service.name}
                   </p>
@@ -199,9 +212,7 @@ export default async function HomePage() {
                   </ul>
                   <Link
                     href={`/prestations/${service.slug}`}
-                    className={`btn mt-auto w-full ${
-                      isCenter ? "btn-accent" : "btn-ghost-dark"
-                    }`}
+                    className="btn btn-ghost-dark mt-auto w-full"
                   >
                     Voir le détail
                   </Link>
@@ -313,6 +324,51 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── L'équipe ───────────────────────────────────────────────────────── */}
+      {/* Fond noir PUR et non bg-dark (#0a0a0a) : c'est ce qui fait disparaitre
+          le fond des portraits. Teste aussi avec un halo terracotta derriere le
+          duo — il se compositait par-dessus les photos et redessinait leur
+          rectangle. Le detourage se suffit a lui-meme. */}
+      <section id="equipe" className="bg-black py-16 text-on-dark md:py-20">
+        <div className="shell">
+          <div className="mx-auto mb-11 max-w-[560px] text-center">
+            <p className="eyebrow eyebrow-light">L&apos;équipe</p>
+            <h2 className="disp mb-3 mt-3 text-[clamp(26px,3vw,34px)] font-bold">
+              Les mains derrière le résultat
+            </h2>
+            <p className="text-[14.5px] leading-relaxed text-on-dark-dim">
+              Pas de sous-traitance et pas de rotation : ce sont les mêmes
+              personnes qui prennent votre véhicule en charge, du premier appel
+              à la restitution.
+            </p>
+          </div>
+
+          <ul className="mx-auto grid max-w-[680px] grid-cols-2 gap-5 sm:gap-8">
+            {TEAM.map((member) => (
+              <li key={member.name} className="text-center">
+                <div className="relative">
+                  <Image
+                    src={member.photo}
+                    alt={`Portrait de ${member.name}`}
+                    width={member.width}
+                    height={member.height}
+                    sizes="(min-width: 640px) 320px, 45vw"
+                    className="aspect-[4/5] w-full rounded-[20px] object-cover object-top"
+                  />
+                  {/* Le cadrage coupe a mi-corps : le degrade vers le noir de
+                      la section efface la coupe au lieu de la souligner. */}
+                  <div
+                    aria-hidden
+                    className="absolute inset-x-0 bottom-0 h-2/5 rounded-b-[20px] bg-gradient-to-t from-black via-black/80 to-transparent"
+                  />
+                </div>
+                <p className="disp mt-3 text-[17px] font-bold">{member.name}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* ── Nous venons à vous ─────────────────────────────────────────────── */}
       <section id="domicile" className="bg-dark py-16 text-on-dark md:py-20">
         <div className="shell grid items-center gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-14">
@@ -322,17 +378,18 @@ export default async function HomePage() {
               C&apos;est nous qui nous déplaçons.
             </h2>
             <p className="mb-7 max-w-[460px] text-[15px] leading-relaxed text-on-dark-dim">
-              Notre camionnette est équipée en autonomie complète — eau et
-              électricité comprises. Nous intervenons devant chez vous ou sur
-              votre lieu de travail, dans tout le Brabant wallon. Vous
-              n&apos;avez rien à déplacer, pas de créneau à bloquer chez un
-              garagiste : votre véhicule reste où il est.
+              Notre camionnette est autonome en eau : nous avons seulement
+              besoin d&apos;un accès à une prise de courant sur place. Nous
+              intervenons devant chez vous ou sur votre lieu de travail, dans
+              tout le Brabant wallon. Vous n&apos;avez rien à déplacer, pas de
+              créneau à bloquer chez un garagiste : votre véhicule reste où il
+              est.
             </p>
 
             <ul className="mb-8 flex flex-col gap-3">
               {[
                 "Intervention devant chez vous ou au bureau",
-                "Camionnette autonome en eau et en électricité",
+                "Camionnette autonome en eau — une prise de courant suffit",
                 "Aucun déplacement de votre côté",
                 "Possibilité de venir à l'atelier si vous préférez",
               ].map((item) => (

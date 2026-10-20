@@ -33,6 +33,11 @@ export default async function TarifsPage() {
             ci-dessous sont indicatifs : un devis précis est toujours confirmé avant
             intervention. Le paiement se fait à l&apos;atelier, aucun règlement en ligne.
           </p>
+          {/* La mention TTC doit rester lisible sans avoir a lire le paragraphe :
+              c'est une information de prix, pas une precision de contexte. */}
+          <p className="mt-5 inline-flex rounded-full border border-line bg-surface px-4 py-2 text-[13.5px] font-semibold">
+            Tous les prix sont affichés TTC.
+          </p>
         </div>
       </section>
 
@@ -42,8 +47,9 @@ export default async function TarifsPage() {
           <PriceGrid services={services} vehicleClasses={vehicleClasses} />
 
           <p className="hint">
-            Les prix barrés signalent une promotion en cours. « Sur devis » : une
-            inspection du véhicule est nécessaire avant chiffrage.
+            Tous les montants de la grille sont TTC. Les prix barrés signalent une
+            promotion en cours. « Sur devis » : une inspection du véhicule est
+            nécessaire avant chiffrage.
           </p>
         </div>
       </section>
@@ -57,8 +63,8 @@ export default async function TarifsPage() {
               Options à la carte
             </h2>
             <p className="mb-9 max-w-[560px] text-[14.5px] leading-relaxed text-ink-dim">
-              À ajouter à la formule de votre choix. Les options disponibles varient selon
-              la prestation : le détail figure sur chaque fiche.
+              À ajouter à la formule de votre choix, prix TTC. Les options disponibles
+              varient selon la prestation : le détail figure sur chaque fiche.
             </p>
 
             <ul className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
