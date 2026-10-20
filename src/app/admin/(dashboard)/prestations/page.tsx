@@ -34,7 +34,16 @@ export default async function AdminServicesPage() {
           action={{ href: "/admin/prestations/nouvelle", label: "Nouvelle prestation" }}
         />
       ) : (
-        <div className="overflow-hidden rounded-[16px] border border-line bg-bg">
+        <div className="relative overflow-x-auto rounded-[16px] border border-line bg-bg">
+          {/* Deux corrections ici, pour le mobile.
+              overflow-x-auto et non overflow-hidden : les cellules sont en
+              whitespace-nowrap, la table ne descend donc pas sous sa largeur
+              de contenu et les dernieres colonnes etaient rognees sans aucun
+              moyen de les atteindre.
+              relative : le <span class="sr-only"> de l'en-tete est en position
+              absolute. Sans ancetre positionne son bloc conteneur etait la
+              page, il echappait au rognage et etirait le document a 419 px,
+              d'ou un defilement horizontal sous 420 px. */}
           <table className="w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-line bg-surface">
