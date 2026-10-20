@@ -21,8 +21,20 @@ export const revalidate = 300;
 /// l'image n'a plus de bord visible et la silhouette flotte. Sur un fond clair
 /// elle apparaitrait comme un rectangle noir.
 const TEAM = [
-  { name: "Dorian", photo: "/equipe/dorian.jpg", width: 1024, height: 1536 },
-  { name: "Madysone", photo: "/equipe/madysone.jpeg", width: 1122, height: 1402 },
+  {
+    name: "Dorian",
+    role: "Fondateur",
+    photo: "/equipe/dorian.jpg",
+    width: 1024,
+    height: 1536,
+  },
+  {
+    name: "Madysone",
+    role: "Digital marketing",
+    photo: "/equipe/madysone.jpeg",
+    width: 1122,
+    height: 1402,
+  },
 ] as const;
 
 export default async function HomePage() {
@@ -369,6 +381,7 @@ export default async function HomePage() {
                   />
                 </div>
                 <p className="disp mt-3 text-[17px] font-bold">{member.name}</p>
+                <p className="mt-0.5 text-[13px] text-on-dark-faint">{member.role}</p>
               </li>
             ))}
           </ul>
