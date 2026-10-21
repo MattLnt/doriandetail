@@ -30,9 +30,6 @@ export function SiteFooter({ settings }: { settings: Settings }) {
           <Link href="/boutique">Boutique</Link>
           <Link href="/contact">Contact</Link>
           <Link href="/mentions-legales">Mentions légales</Link>
-          <Link href="/admin" className="text-on-dark-faint">
-            Administration
-          </Link>
         </nav>
       </div>
     </footer>
