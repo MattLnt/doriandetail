@@ -189,7 +189,7 @@ model SiteSettings {
   addressLine String  @default("Grand'Route 550 D2")
   city        String  @default("1420 Braine-l'Alleud")
   /// Horaires, une ligne par jour
-  hours       String  @default("Lun - Ven : 9h - 18h\nSam : 9h - 13h\nDim : fermé")
+  hours       String  @default("Lun - Ven : 9h - 18h\nSam : 9h - 18h\nDim : fermé")
   instagram   String?
   facebook    String?
   tiktok      String?
