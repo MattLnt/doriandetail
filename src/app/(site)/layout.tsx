@@ -1,9 +1,9 @@
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
-import { getSettings } from "@/lib/queries";
+import { getSettingsOrFallback } from "@/lib/queries";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const settings = await getSettings();
+  const settings = await getSettingsOrFallback();
 
   return (
     <div className="flex min-h-screen flex-col">

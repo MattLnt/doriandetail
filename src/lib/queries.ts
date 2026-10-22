@@ -1,10 +1,26 @@
 import { prisma } from "@/lib/prisma";
+import { FALLBACK_SETTINGS } from "@/lib/site-defaults";
 
 /** Réglages du site, en créant la ligne unique au premier appel. */
 export async function getSettings() {
   const existing = await prisma.siteSettings.findUnique({ where: { id: "singleton" } });
   if (existing) return existing;
   return prisma.siteSettings.create({ data: { id: "singleton" } });
+}
+
+/**
+ * Même chose, mais ne jette jamais : en cas de base injoignable on sert les
+ * valeurs par défaut plutôt qu'une 500. Réservé aux pages publiques — le
+ * dashboard doit au contraire échouer franchement, sans quoi un enregistrement
+ * des réglages écraserait les vraies valeurs par ce repli.
+ */
+export async function getSettingsOrFallback(): Promise<Settings> {
+  try {
+    return await getSettings();
+  } catch (error) {
+    console.error("[settings] base injoignable, repli sur les valeurs par défaut", error);
+    return FALLBACK_SETTINGS;
+  }
 }
 
 export type Settings = Awaited<ReturnType<typeof getSettings>>;

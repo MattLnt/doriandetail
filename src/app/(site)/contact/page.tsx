@@ -12,7 +12,7 @@ import {
 } from "@/components/Icons";
 import { ContactForm } from "@/components/site/ContactForm";
 import { prisma } from "@/lib/prisma";
-import { getSettings } from "@/lib/queries";
+import { getSettingsOrFallback } from "@/lib/queries";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -27,26 +27,8 @@ type PageProps = {
 export default async function ContactPage({ searchParams }: PageProps) {
   const [{ prestation, produit }, settings, services] = await Promise.all([
     searchParams,
-    getSettings(),
-    // Les options sont chargees avec les prestations : le formulaire les
-    // filtre cote client a la selection, sans requete supplementaire.
-    prisma.service.findMany({
-      where: { published: true },
-      orderBy: { position: "asc" },
-      select: {
-        slug: true,
-        name: true,
-        options: {
-          // La table de jonction n'a pas d'ordre propre : il vient de l'option.
-          orderBy: { option: { position: "asc" } },
-          select: {
-            option: {
-              select: { id: true, name: true, priceCents: true, published: true },
-            },
-          },
-        },
-      },
-    }),
+    getSettingsOrFallback(),
+    listServicesForForm(),
   ]);
 
   const telHref = `tel:${settings.phone.replace(/[^0-9+]/g, "")}`;
@@ -133,6 +115,39 @@ export default async function ContactPage({ searchParams }: PageProps) {
       </div>
     </section>
   );
+}
+
+/**
+ * Prestations proposees dans le formulaire. Une base injoignable ne doit pas
+ * emporter la page : on rend la liste vide, le visiteur garde le telephone,
+ * l'adresse et le champ message.
+ *
+ * Les options sont chargees avec les prestations : le formulaire les filtre
+ * cote client a la selection, sans requete supplementaire.
+ */
+async function listServicesForForm() {
+  try {
+    return await prisma.service.findMany({
+      where: { published: true },
+      orderBy: { position: "asc" },
+      select: {
+        slug: true,
+        name: true,
+        options: {
+          // La table de jonction n'a pas d'ordre propre : il vient de l'option.
+          orderBy: { option: { position: "asc" } },
+          select: {
+            option: {
+              select: { id: true, name: true, priceCents: true, published: true },
+            },
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.error("[contact] prestations indisponibles", error);
+    return [];
+  }
 }
 
 function InfoRow({

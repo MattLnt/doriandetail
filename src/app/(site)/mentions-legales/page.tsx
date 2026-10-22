@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { getSettings } from "@/lib/queries";
+import { getSettingsOrFallback } from "@/lib/queries";
 
 export const metadata: Metadata = {
   title: "Mentions légales",
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default async function MentionsLegalesPage() {
-  const settings = await getSettings();
+  const settings = await getSettingsOrFallback();
 
   return (
     <section className="py-14 md:py-16">

@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import { sendContactNotification } from "@/lib/mail";
 import { prisma } from "@/lib/prisma";
-import { getSettings } from "@/lib/queries";
+import { getSettingsOrFallback } from "@/lib/queries";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Indiquez votre nom.").max(120),
@@ -64,19 +64,30 @@ export async function submitContact(
 
   const data = parsed.data;
 
-  const service = data.serviceSlug
-    ? await prisma.service.findUnique({
-        where: { slug: data.serviceSlug },
-        select: {
-          id: true,
-          name: true,
-          options: {
-            where: { option: { published: true } },
-            select: { option: { select: { id: true, name: true } } },
+  // Base injoignable : on continue sans la prestation plutot que de perdre la
+  // demande. Le slug brut part dans l'email, Dorian sait de quoi il s'agit.
+  let service: {
+    id: string;
+    name: string;
+    options: { option: { id: string; name: string } }[];
+  } | null = null;
+  try {
+    service = data.serviceSlug
+      ? await prisma.service.findUnique({
+          where: { slug: data.serviceSlug },
+          select: {
+            id: true,
+            name: true,
+            options: {
+              where: { option: { published: true } },
+              select: { option: { select: { id: true, name: true } } },
+            },
           },
-        },
-      })
-    : null;
+        })
+      : null;
+  } catch (error) {
+    console.error("[contact] prestation illisible", error);
+  }
 
   // Les cases cochees ne sont pas fiables : le formulaire est modifiable cote
   // client. On ne retient que les options reellement rattachees a la
@@ -87,6 +98,7 @@ export async function submitContact(
     .filter((option) => requestedIds.has(option.id))
     .map((option) => option.name);
 
+  let saved = true;
   try {
     await prisma.contactMessage.create({
       data: {
@@ -101,18 +113,27 @@ export async function submitContact(
     });
   } catch (error) {
     console.error("[contact] enregistrement impossible", error);
-    return {
-      status: "error",
-      message:
-        "Une erreur est survenue à l'enregistrement. Réessayez ou appelez-nous directement.",
-    };
+    saved = false;
   }
 
-  const settings = await getSettings();
+  const settings = await getSettingsOrFallback();
   const notification = await sendContactNotification(
-    { ...data, serviceName: service?.name ?? null, optionNames },
+    { ...data, serviceName: service?.name ?? data.serviceSlug ?? null, optionNames },
     settings.email,
   );
+
+  // Les deux canaux sont tombes : la demande n'existe nulle part, il faut le dire.
+  if (!saved && !notification.sent) {
+    console.error("[contact] demande perdue :", notification.error);
+    return {
+      status: "error",
+      message: `Une erreur est survenue à l'envoi. Réessayez, ou appelez-nous directement au ${settings.phone}.`,
+    };
+  }
+  if (!saved) {
+    // Transmise par email seulement : elle n'apparaitra pas dans le dashboard.
+    console.warn("[contact] demande transmise par email uniquement, base injoignable");
+  }
   if (!notification.sent) {
     // La demande est enregistrée et visible dans le dashboard : on n'alerte pas le visiteur.
     console.warn("[contact] notification email non envoyée :", notification.error);
