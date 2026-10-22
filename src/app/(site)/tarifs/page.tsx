@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { ContentUnavailable } from "@/components/site/ContentUnavailable";
 import { PriceGrid } from "@/components/site/PriceGrid";
 import { formatPrice } from "@/lib/format";
-import { getPublishedOptions, getPublishedServices, getVehicleClasses } from "@/lib/queries";
+import {
+  getPublishedOptionsOrEmpty,
+  getPublishedServicesOrEmpty,
+  getVehicleClassesOrEmpty,
+} from "@/lib/queries";
 
 export const revalidate = 300;
 
@@ -15,9 +20,9 @@ export const metadata: Metadata = {
 
 export default async function TarifsPage() {
   const [services, vehicleClasses, options] = await Promise.all([
-    getPublishedServices(),
-    getVehicleClasses(),
-    getPublishedOptions(),
+    getPublishedServicesOrEmpty(),
+    getVehicleClassesOrEmpty(),
+    getPublishedOptionsOrEmpty(),
   ]);
 
   return (
@@ -44,7 +49,13 @@ export default async function TarifsPage() {
       {/* ── Grille principale ──────────────────────────────────────────────── */}
       <section className="py-12 md:py-14">
         <div className="shell">
-          <PriceGrid services={services} vehicleClasses={vehicleClasses} />
+          {services.length === 0 ? (
+            <ContentUnavailable>
+              La grille tarifaire n&apos;est pas accessible pour le moment.
+            </ContentUnavailable>
+          ) : (
+            <PriceGrid services={services} vehicleClasses={vehicleClasses} />
+          )}
 
           <p className="hint">
             Tous les montants de la grille sont TTC. Les prix barrés signalent une

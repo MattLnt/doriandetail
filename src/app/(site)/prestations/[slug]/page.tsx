@@ -13,11 +13,18 @@ export const revalidate = 300;
 type PageProps = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  const services = await prisma.service.findMany({
-    where: { published: true },
-    select: { slug: true },
-  });
-  return services.map((s) => ({ slug: s.slug }));
+  // Une base injoignable ne doit pas casser le build : sans params, les pages
+  // sont rendues a la demande au lieu d'etre pregenerees.
+  try {
+    const services = await prisma.service.findMany({
+      where: { published: true },
+      select: { slug: true },
+    });
+    return services.map((s) => ({ slug: s.slug }));
+  } catch (error) {
+    console.error("[prestations] slugs indisponibles au build", error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

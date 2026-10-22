@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { ContentUnavailable } from "@/components/site/ContentUnavailable";
 import { ServiceCard } from "@/components/site/ServiceCard";
-import { getPublishedServices } from "@/lib/queries";
+import { getPublishedServicesOrEmpty } from "@/lib/queries";
 
 export const revalidate = 300;
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function PrestationsPage() {
-  const services = await getPublishedServices();
+  const services = await getPublishedServicesOrEmpty();
 
   // Regroupement par famille, dans l'ordre défini au dashboard.
   const groups = new Map<string, { name: string; services: typeof services }>();
@@ -41,6 +42,16 @@ export default async function PrestationsPage() {
           </p>
         </div>
       </section>
+
+      {ordered.length === 0 && (
+        <section className="border-b border-line py-12 md:py-14">
+          <div className="shell">
+            <ContentUnavailable>
+              Nos prestations ne sont pas accessibles pour le moment.
+            </ContentUnavailable>
+          </div>
+        </section>
+      )}
 
       {ordered.map((group) => (
         <section key={group.name} className="border-b border-line py-12 md:py-14">

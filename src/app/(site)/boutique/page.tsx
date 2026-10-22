@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { MailIcon, PhoneIcon } from "@/components/Icons";
+import { ContentUnavailable } from "@/components/site/ContentUnavailable";
 import { ShopGrid } from "@/components/site/ShopGrid";
-import { getSettings, getShopData } from "@/lib/queries";
+import { getSettingsOrFallback, getShopDataOrEmpty } from "@/lib/queries";
 
 export const revalidate = 300;
 
@@ -15,8 +16,8 @@ export const metadata: Metadata = {
 
 export default async function BoutiquePage() {
   const [{ categories, products }, settings] = await Promise.all([
-    getShopData(),
-    getSettings(),
+    getShopDataOrEmpty(),
+    getSettingsOrFallback(),
   ]);
 
   const telHref = `tel:${settings.phone.replace(/[^0-9+]/g, "")}`;
@@ -41,7 +42,13 @@ export default async function BoutiquePage() {
 
       <section className="py-12 md:py-14">
         <div className="shell">
-          <ShopGrid categories={categories} products={products} />
+          {products.length === 0 ? (
+            <ContentUnavailable>
+              La boutique n&apos;est pas accessible pour le moment.
+            </ContentUnavailable>
+          ) : (
+            <ShopGrid categories={categories} products={products} />
+          )}
         </div>
       </section>
 

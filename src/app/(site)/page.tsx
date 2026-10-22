@@ -8,11 +8,16 @@ import {
   PhoneIcon,
   StarFilledIcon,
 } from "@/components/Icons";
+import { ContentUnavailable } from "@/components/site/ContentUnavailable";
 import { CoverageMap } from "@/components/site/CoverageMap";
 import { ServiceCard } from "@/components/site/ServiceCard";
 import { formatPrice } from "@/lib/format";
 import { formatRating, getGoogleReviews } from "@/lib/google-reviews";
-import { getPublishedServices, getSettings, startingPrice } from "@/lib/queries";
+import {
+  getPublishedServicesOrEmpty,
+  getSettingsOrFallback,
+  startingPrice,
+} from "@/lib/queries";
 
 export const revalidate = 300;
 
@@ -39,8 +44,8 @@ const TEAM = [
 
 export default async function HomePage() {
   const [settings, services, google] = await Promise.all([
-    getSettings(),
-    getPublishedServices(),
+    getSettingsOrFallback(),
+    getPublishedServicesOrEmpty(),
     getGoogleReviews(),
   ]);
 
@@ -181,11 +186,17 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {services.map((service) => (
-              <ServiceCard key={service.id} service={service} />
-            ))}
-          </div>
+          {services.length === 0 ? (
+            <ContentUnavailable>
+              La liste des prestations n&apos;est pas accessible pour le moment.
+            </ContentUnavailable>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {services.map((service) => (
+                <ServiceCard key={service.id} service={service} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

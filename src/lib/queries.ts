@@ -1,6 +1,21 @@
 import { prisma } from "@/lib/prisma";
 import { FALLBACK_SETTINGS } from "@/lib/site-defaults";
 
+/**
+ * Enveloppe une lecture publique. Une base injoignable ne doit casser ni la page
+ * ni le build : `next build` prerend l'accueil, les prestations, les tarifs et la
+ * boutique, donc une Postgres absente faisait echouer le deploiement entier.
+ * On sert un contenu vide, la page garde ses textes et ses liens de contact.
+ */
+async function orFallback<T>(label: string, run: () => Promise<T>, fallback: T): Promise<T> {
+  try {
+    return await run();
+  } catch (error) {
+    console.error(`[${label}] base injoignable, contenu indisponible`, error);
+    return fallback;
+  }
+}
+
 /** Réglages du site, en créant la ligne unique au premier appel. */
 export async function getSettings() {
   const existing = await prisma.siteSettings.findUnique({ where: { id: "singleton" } });
@@ -116,3 +131,30 @@ export async function getShopData() {
 }
 
 export type PublicProduct = Awaited<ReturnType<typeof getShopData>>["products"][number];
+
+/* ── Variantes tolerantes, pour les pages publiques uniquement ──────────────
+   Le dashboard continue d'appeler les fonctions strictes : un ecran d'admin qui
+   affiche une liste vide au lieu d'une erreur ferait croire a une suppression. */
+
+export function getPublishedServicesOrEmpty() {
+  return orFallback<PublicService[]>("prestations", getPublishedServices, []);
+}
+
+export function getVehicleClassesOrEmpty() {
+  return orFallback<VehicleClass[]>("gabarits", getVehicleClasses, []);
+}
+
+export function getPublishedOptionsOrEmpty() {
+  return orFallback<Awaited<ReturnType<typeof getPublishedOptions>>>(
+    "options",
+    getPublishedOptions,
+    [],
+  );
+}
+
+export function getShopDataOrEmpty() {
+  return orFallback<Awaited<ReturnType<typeof getShopData>>>("boutique", getShopData, {
+    categories: [],
+    products: [],
+  });
+}
