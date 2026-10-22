@@ -4,7 +4,12 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  // Connexion groupee (PgBouncer) pour l'application.
   url      = env("DATABASE_URL")
+  // Connexion directe pour `prisma db push`, `prisma migrate` et l'introspection :
+  // PgBouncer en mode transaction ne conserve pas l'etat de session, ce qui fait
+  // echouer les migrations avec des erreurs qui ne nomment jamais le pooling.
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 /// Compte administrateur (accès au dashboard)
