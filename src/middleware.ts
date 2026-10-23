@@ -10,6 +10,10 @@ const SESSION_COOKIE = "dd_session";
  */
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Purge de cookie : toujours accessible, sinon la boucle ne se casse jamais.
+  if (pathname === "/admin/session-expiree") return NextResponse.next();
+
   const token = request.cookies.get(SESSION_COOKIE)?.value;
   let valid = false;
 

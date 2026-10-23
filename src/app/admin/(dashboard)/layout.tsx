@@ -17,12 +17,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // Le middleware a déjà redirigé, ce garde-fou couvre les accès directs.
   if (!session) redirect("/admin/login");
 
-  // Le compte peut avoir été supprimé depuis l'émission du jeton.
+  // Le compte peut avoir été supprimé depuis l'émission du jeton. Dans ce cas
+  // le cookie reste valide aux yeux du middleware : rediriger vers la
+  // connexion boucle a l'infini. On passe par la route qui purge le cookie.
   const admin = await prisma.admin.findUnique({
     where: { id: session.sub },
     select: { email: true },
   });
-  if (!admin) redirect("/admin/login");
+  if (!admin) redirect("/admin/session-expiree");
 
   const pendingMessages = await prisma.contactMessage.count({ where: { handled: false } });
 
