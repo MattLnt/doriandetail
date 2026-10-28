@@ -18,8 +18,13 @@ import {
   getSettingsOrFallback,
   startingPrice,
 } from "@/lib/queries";
+import { JsonLd, localBusinessJsonLd, telHref as toTelHref } from "@/lib/seo";
 
 export const revalidate = 300;
+
+export const metadata = {
+  alternates: { canonical: "/" },
+};
 
 /// Les deux portraits sont detoures sur du noir PUR (#000, verifie pixel par
 /// pixel). C'est ce qui dicte la section : posee sur un fond noir identique,
@@ -59,10 +64,13 @@ export default async function HomePage() {
 
   const highlighted = services.filter((s) => s.featured).slice(0, 3);
   const pricingTeaser = highlighted.length === 3 ? highlighted : services.slice(0, 3);
-  const telHref = `tel:${settings.phone.replace(/[^0-9+]/g, "")}`;
+  const telHref = toTelHref(settings.phone);
 
   return (
     <>
+      {/* Fiche d'etablissement pour Google : c'est elle qui alimente les
+          resultats locaux et le bouton d'appel dans la recherche. */}
+      <JsonLd data={localBusinessJsonLd(settings)} />
       {/* ── Hero — photo plein ecran, texte centre ───────────────────────── */}
       <section className="relative -mt-[var(--header-h)] flex min-h-svh flex-col overflow-hidden bg-dark text-on-dark">
         <Image

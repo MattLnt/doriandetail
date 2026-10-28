@@ -7,6 +7,7 @@ import { PriceTable } from "@/components/site/PriceTable";
 import { formatPrice } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
 import { getServiceBySlug, getSettings } from "@/lib/queries";
+import { JsonLd, serviceJsonLd, telHref as toTelHref } from "@/lib/seo";
 
 export const revalidate = 300;
 
@@ -34,6 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: service.name,
     description: service.tagline ?? undefined,
+    alternates: { canonical: `/prestations/${slug}` },
   };
 }
 
@@ -42,10 +44,11 @@ export default async function ServicePage({ params }: PageProps) {
   const [service, settings] = await Promise.all([getServiceBySlug(slug), getSettings()]);
   if (!service) notFound();
 
-  const telHref = `tel:${settings.phone.replace(/[^0-9+]/g, "")}`;
+  const telHref = toTelHref(settings.phone);
 
   return (
     <>
+      <JsonLd data={serviceJsonLd(service)} />
       <section className="border-b border-line py-12 md:py-16">
         <div className="shell">
           <nav aria-label="Fil d'Ariane" className="mb-7 text-[13px] text-ink-faint">

@@ -5,6 +5,7 @@ import { MailIcon, PhoneIcon } from "@/components/Icons";
 import { ContentUnavailable } from "@/components/site/ContentUnavailable";
 import { ShopGrid } from "@/components/site/ShopGrid";
 import { getSettingsOrFallback, getShopDataOrEmpty } from "@/lib/queries";
+import { telHref as toTelHref } from "@/lib/seo";
 
 export const revalidate = 300;
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
   title: "Boutique",
   description:
     "Les produits de detailing que nous utilisons et recommandons en atelier. Vitrine informative : la commande se fait par téléphone, email ou directement à l'atelier.",
+  alternates: { canonical: "/boutique" },
 };
 
 export default async function BoutiquePage() {
@@ -20,7 +22,7 @@ export default async function BoutiquePage() {
     getSettingsOrFallback(),
   ]);
 
-  const telHref = `tel:${settings.phone.replace(/[^0-9+]/g, "")}`;
+  const telHref = toTelHref(settings.phone);
 
   return (
     <>

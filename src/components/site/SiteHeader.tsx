@@ -5,7 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { ArrowRightIcon } from "@/components/Icons";
+import { ArrowRightIcon, PhoneIcon } from "@/components/Icons";
+import { telHref } from "@/lib/seo";
 
 const NAV = [
   { href: "/prestations", label: "Prestations" },
@@ -15,7 +16,7 @@ const NAV = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function SiteHeader() {
+export function SiteHeader({ phone }: { phone: string }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -76,12 +77,25 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <Link href="/contact" className="btn btn-accent hidden lg:inline-flex">
-          Nous contacter
-          <ArrowRightIcon size={15} />
-        </Link>
+        {/* Appeler reste la premiere action : sur mobile, le bouton est a
+            cote du menu, jamais replie dedans. */}
+        <div className="flex items-center gap-2.5">
+          <a
+            href={telHref(phone)}
+            className="btn btn-accent inline-flex"
+            aria-label={`Appeler le ${phone}`}
+          >
+            <PhoneIcon size={15} />
+            <span className="hidden sm:inline">{phone}</span>
+            <span className="sm:hidden">Appeler</span>
+          </a>
 
-        <button
+          <Link href="/contact" className="btn btn-ghost-dark hidden lg:inline-flex">
+            Devis gratuit
+            <ArrowRightIcon size={15} />
+          </Link>
+
+          <button
           type="button"
           className="flex h-10 w-10 items-center justify-center rounded-[10px] border border-dark-line lg:hidden"
           aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
@@ -99,8 +113,9 @@ export function SiteHeader() {
             aria-hidden
           >
             {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-          </svg>
-        </button>
+            </svg>
+          </button>
+        </div>
       </div>
 
       {open && (

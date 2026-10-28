@@ -13,8 +13,10 @@ const schema = z.object({
   vehicle: z.string().trim().max(120).optional(),
   serviceSlug: z.string().trim().max(120).optional(),
   message: z.string().trim().min(10, "Détaillez un peu votre demande.").max(4000),
-  // Champ leurre : rempli uniquement par les robots.
-  company: z.string().max(0).optional(),
+  // Champ leurre : rempli uniquement par les robots. Son nom est volontairement
+  // opaque — un champ nomme « company » se fait auto-remplir par le navigateur,
+  // et la demande d'un vrai client serait jetee sans trace.
+  dd_hp: z.string().max(0).optional(),
 });
 
 export type ContactState = {
@@ -34,7 +36,7 @@ export async function submitContact(
     vehicle: formData.get("vehicle") ?? undefined,
     serviceSlug: formData.get("serviceSlug") ?? undefined,
     message: formData.get("message") ?? "",
-    company: formData.get("company") ?? undefined,
+    dd_hp: formData.get("dd_hp") ?? undefined,
   });
 
   if (!parsed.success) {
@@ -51,8 +53,11 @@ export async function submitContact(
         fieldErrors[key] ??= issue.message;
       }
     }
-    // Le leurre est rempli : on répond comme si tout allait bien, sans rien enregistrer.
-    if (parsed.error.issues.some((issue) => issue.path[0] === "company")) {
+    // Le leurre est rempli : on répond comme si tout allait bien, sans rien
+    // enregistrer. On le journalise quand meme : si ce message remonte souvent,
+    // c'est le signe que de vraies demandes se font avaler.
+    if (parsed.error.issues.some((issue) => issue.path[0] === "dd_hp")) {
+      console.warn("[contact] leurre anti-spam declenche, demande ignoree");
       return { status: "success", message: "Merci, votre demande a bien été envoyée." };
     }
     return {

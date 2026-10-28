@@ -154,10 +154,20 @@ export function ContactForm({
         )}
       </div>
 
-      {/* Leurre anti-spam — masqué aux lecteurs d'écran et aux visiteurs. */}
-      <div aria-hidden className="absolute left-[-9999px]">
-        <label htmlFor="company">Société</label>
-        <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+      {/* Leurre anti-spam — masqué aux lecteurs d'écran et aux visiteurs.
+          Le nom du champ ne doit ressembler à aucun champ connu des
+          navigateurs : un « company » étiqueté « Société » se fait
+          auto-remplir par Chrome, et la demande d'un vrai client partait
+          alors à la poubelle sans que personne ne le sache. */}
+      <div aria-hidden className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+        <input
+          id="dd-hp"
+          name="dd_hp"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden
+        />
       </div>
 
       <p className="hint">

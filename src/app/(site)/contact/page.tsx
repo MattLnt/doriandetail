@@ -13,11 +13,13 @@ import {
 import { ContactForm } from "@/components/site/ContactForm";
 import { prisma } from "@/lib/prisma";
 import { getSettingsOrFallback } from "@/lib/queries";
+import { telHref as toTelHref } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contactez l'atelier Dorian Detailing à Braine-l'Alleud pour un devis ou un rendez-vous. Aucun paiement en ligne, le règlement se fait à l'atelier.",
+    "Contactez l'atelier Dorian Detailing à Braine-l'Alleud pour un devis ou un rendez-vous. Appelez le 0493 41 91 26 ou écrivez-nous.",
+  alternates: { canonical: "/contact" },
 };
 
 type PageProps = {
@@ -31,7 +33,7 @@ export default async function ContactPage({ searchParams }: PageProps) {
     listServicesForForm(),
   ]);
 
-  const telHref = `tel:${settings.phone.replace(/[^0-9+]/g, "")}`;
+  const telHref = toTelHref(settings.phone);
   const socials = [
     { href: settings.googleUrl, Icon: GoogleIcon, label: "Fiche Google" },
     { href: settings.instagram, Icon: InstagramIcon, label: "Instagram" },

@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: "Grille tarifaire",
   description:
     "Tous les tarifs de l'atelier Dorian Detailing, par prestation et par gabarit de véhicule, ainsi que les options en supplément.",
+  alternates: { canonical: "/tarifs" },
 };
 
 export default async function TarifsPage() {

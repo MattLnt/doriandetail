@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Prestations",
   description:
     "Toutes les formules de l'atelier Dorian Detailing : nettoyage, reconditionnement, polissage, traitement céramique et abonnement d'entretien.",
+  alternates: { canonical: "/prestations" },
 };
 
 export default async function PrestationsPage() {

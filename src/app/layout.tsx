@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito, Outfit } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 
@@ -31,13 +33,28 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_BE",
     siteName: "Dorian Detailing",
+    url: "/",
+    images: [{ url: "/hero-atelier.jpg", width: 1290, height: 759, alt: "L'atelier Dorian Detailing à Braine-l'Alleud" }],
   },
+  twitter: {
+    card: "summary_large_image",
+  },
+  alternates: { canonical: "/" },
+  // Explicite : une page publique sans directive laisse la porte ouverte aux
+  // reglages par defaut d'un intermediaire (CDN, proxy).
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={`${display.variable} ${sans.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* Sans mesure, impossible de dire si le site manque de visiteurs ou
+            de conversions : les deux se corrigent differemment. */}
+        <Analytics />
+        <SpeedInsights />
+      </body>
     </html>
   );
 }
