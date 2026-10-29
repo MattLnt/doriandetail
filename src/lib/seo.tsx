@@ -74,11 +74,12 @@ function openingHours(hours: string) {
 /**
  * Fiche d'etablissement pour Google. C'est ce balisage qui permet au site
  * de ressortir sur les recherches locales (« detailing Braine-l'Alleud »)
- * et d'afficher note, horaires et bouton d'appel dans les resultats.
+ * et d'afficher horaires et bouton d'appel dans les resultats.
+ *
+ * Pas d'aggregateRating ici : Google interdit les avis auto-declares sur sa
+ * propre fiche (LocalBusiness/Organization) et rejette le balisage.
  */
 export function localBusinessJsonLd(settings: Settings) {
-  const rating = Number(settings.googleRating.replace(",", "."));
-
   return {
     "@context": "https://schema.org",
     "@type": "AutoDetailing",
@@ -108,16 +109,6 @@ export function localBusinessJsonLd(settings: Settings) {
     sameAs: [settings.googleUrl, settings.instagram, settings.facebook, settings.tiktok].filter(
       (value): value is string => Boolean(value),
     ),
-    ...(Number.isFinite(rating) && settings.googleReviewCount > 0
-      ? {
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: rating,
-            reviewCount: settings.googleReviewCount,
-            bestRating: 5,
-          },
-        }
-      : {}),
   };
 }
 
