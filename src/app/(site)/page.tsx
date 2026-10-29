@@ -164,10 +164,19 @@ export default async function HomePage() {
               <dt className="text-[12.5px] text-on-dark-faint">
                 {reviewCount} avis Google
               </dt>
-              <dd className="flex gap-0.5 text-accent" role="img" aria-label={`${rating} sur 5`}>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <StarFilledIcon key={index} size={15} />
-                ))}
+              {/* role="img" sur un <span> interieur et non sur le <dd> :
+                  un role explicite ecrase le role implicite « definition »,
+                  et le <dl> n'est alors plus un couple dt/dd valide. */}
+              <dd>
+                <span
+                  className="flex gap-0.5 text-accent"
+                  role="img"
+                  aria-label={`${rating} sur 5`}
+                >
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <StarFilledIcon key={index} size={15} />
+                  ))}
+                </span>
               </dd>
             </div>
             <div className="flex flex-row-reverse items-baseline gap-2.5">
