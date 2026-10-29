@@ -62,6 +62,12 @@ const WORDPRESS_REDIRECTS: { source: string; destination: string }[] = [
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: "https", hostname: "**" }],
+    /* Next ne sert que du WebP par defaut. L'AVIF pese ~30 % de moins a
+       qualite egale et couvre tous les navigateurs de notre cible
+       browserslist ; le WebP reste en repli pour les autres. L'ordre
+       compte : l'optimiseur prend le premier format accepte par le
+       navigateur. */
+    formats: ["image/avif", "image/webp"],
   },
   async redirects() {
     return [
