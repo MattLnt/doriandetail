@@ -11,7 +11,10 @@
   /* Textes sur fond clair */
   --color-ink: #0a0a0a;
   --color-ink-dim: #525252;
-  --color-ink-faint: #8a8a8a;
+  /* Pas plus clair : sur une .card (#f6f6f6), #8a8a8a ne donnait que 3,2:1,
+     sous le minimum WCAG AA de 4,5:1. Celui-ci donne 4,7:1 sur carte et
+     5,1:1 sur blanc. */
+  --color-ink-faint: #6e6e6e;
 
   /* Terracotta de la marque (relevé sur doriandetailing.be) */
   --color-accent: #cc9286;

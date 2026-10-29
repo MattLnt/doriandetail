@@ -12,6 +12,13 @@
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio"
   },
+  "//browserslist": "Cible alignee sur le minimum requis par Tailwind v4. Sans elle, Next embarque des polyfills pour des navigateurs que le CSS du site ne supporte de toute facon pas (12 Ko de JS mort).",
+  "browserslist": [
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 128",
+    "safari >= 16.4"
+  ],
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },

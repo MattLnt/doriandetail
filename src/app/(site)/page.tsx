@@ -164,7 +164,7 @@ export default async function HomePage() {
               <dt className="text-[12.5px] text-on-dark-faint">
                 {reviewCount} avis Google
               </dt>
-              <dd className="flex gap-0.5 text-accent" aria-label={`${rating} sur 5`}>
+              <dd className="flex gap-0.5 text-accent" role="img" aria-label={`${rating} sur 5`}>
                 {Array.from({ length: 5 }).map((_, index) => (
                   <StarFilledIcon key={index} size={15} />
                 ))}
@@ -290,6 +290,7 @@ export default async function HomePage() {
                   </span>
                   <span
                     className="flex gap-0.5 text-accent-deep"
+                    role="img"
                     aria-label={`Note de ${rating} sur 5`}
                   >
                     {Array.from({ length: 5 }).map((_, index) => (
@@ -322,6 +323,7 @@ export default async function HomePage() {
                 <figure key={review.id} className="card flex flex-col p-6">
                   <div
                     className="mb-3.5 flex gap-0.5 text-accent-deep"
+                    role="img"
                     aria-label={`${review.rating} étoiles sur 5`}
                   >
                     {Array.from({ length: review.rating }).map((_, index) => (
